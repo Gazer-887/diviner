@@ -12,8 +12,14 @@
 - GitHub 私有仓库 diviner 创建并推送（commit 4a089ca，2026-08-31）
 - 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器 + 浏览器截图验证（commit b8a594d，2026-08-31）
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
+- 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 待定，2026-08-31）
 
 ### 修复
 
 - SWC 原生二进制损坏（重装 @next/swc-win32-x64-msvc）；node_modules 移动损坏（npm ci 重装）（2026-08-31）
 - .gitignore 备份目录改用通配（/.next*/、/node_modules*、/out*），避免 .next.old/out.old 等变名漏忽略（2026-08-31）
+- 塔罗翻牌卡 Chrome 152 下 backface-visibility 误判导致牌面不可见：放弃关键帧动画方案，改用 CSS transition + React state 控制 `.is-flipped` class 切换 `rotateY 0↔180`，规避 nested preserve-3d 下 keyframe 边界 case（2026-08-31）
+
+### 变更
+
+- .gitignore 增加 `/resources/tmp_*` 与 `/resources/shots/*-debug-*` 规则，本地排查临时文件不入库（2026-08-31）
