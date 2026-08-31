@@ -7,6 +7,7 @@ import { PageShell } from "@/components/ui/PageShell";
 import { ResultCard } from "@/components/ui/ResultCard";
 import { Field, Select } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ShareButton } from "@/components/ui/ShareButton";
 import { FlipCard } from "./FlipCard";
 
 const QUESTION_OPTIONS: { value: TarotQuestionType; label: string }[] = [
@@ -165,7 +166,12 @@ export default function TarotPage() {
             </p>
           </ResultCard>
 
-          <div className="flex justify-center pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+            <ShareButton
+              title={`塔罗占卜 · ${result.draws.map((d) => `${d.card.name}${d.reversed ? "(逆)" : "(正)"}`).join(" / ")}`}
+              text={result.draws
+                .map((d, i) => `${result.spread === "three" ? `${["过去", "现在", "未来"][i] || `第${i + 1}张`}` : "指引"}：${d.card.name}（${d.reversed ? "逆位" : "正位"}）— ${(d.reversed ? d.card.reversed : d.card.upright).slice(0, 3).join("、")}\n${result.summary}`).join("\n")}
+            />
             <Button variant="ghost" onClick={handleReset}>
               重新洗牌
             </Button>

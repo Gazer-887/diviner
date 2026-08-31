@@ -7,6 +7,7 @@ import { PageShell } from "@/components/ui/PageShell";
 import { Field, TextArea } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { ResultCard } from "@/components/ui/ResultCard";
+import { ShareButton } from "@/components/ui/ShareButton";
 
 const SHAKE_MS = 900;
 
@@ -177,15 +178,21 @@ export default function LotteryPage() {
           </div>
 
           <div
-            className="anim-fade-up flex items-center justify-between gap-3"
+            className="anim-fade-up flex flex-wrap items-center justify-between gap-3"
             style={{ animationDelay: "0.48s" }}
           >
             <span className="text-xs" style={{ color: "var(--text-faint)" }}>
               抽签时间：{formatTime(result.drawnAt)}
             </span>
-            <Button variant="ghost" onClick={handleReset}>
-              再抽一签
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <ShareButton
+                title={`抽签 · 第 ${result.stick.number} 签 ${result.stick.name}（${result.stick.level}）`}
+                text={`所求：${result.question ?? "未填写"}\n第 ${result.stick.number} 签　${result.stick.name}（${result.stick.level}）\n签诗：${result.stick.poem}\n解曰：${result.stick.explain}\n行事指引：${result.stick.advice}`}
+              />
+              <Button variant="ghost" onClick={handleReset}>
+                再抽一签
+              </Button>
+            </div>
           </div>
         </>
       )}

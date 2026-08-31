@@ -7,6 +7,7 @@ import { PageShell } from "@/components/ui/PageShell";
 import { Field, TextInput } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { ResultCard } from "@/components/ui/ResultCard";
+import { ShareButton } from "@/components/ui/ShareButton";
 
 const WUGE_ITEMS: { key: keyof NameResult["wuge"]; label: string }[] = [
   { key: "tian", label: "天格" },
@@ -204,7 +205,11 @@ export default function NamePage() {
             </ResultCard>
           </div>
 
-          <div className="anim-fade-up flex justify-center pt-1" style={{ animationDelay: "0.45s" }}>
+          <div className="anim-fade-up flex flex-wrap items-center justify-center gap-3 pt-1" style={{ animationDelay: "0.45s" }}>
+            <ShareButton
+              title={`姓名测试 · ${result.name}`}
+              text={`姓名：${result.name}\n综合得分：${result.score}（${result.fortune}）\n五格数理：天格${result.wuge.tian} 人格${result.wuge.ren} 地格${result.wuge.di} 外格${result.wuge.wai} 总格${result.wuge.zong}\n三才配置：${result.sanCai}`}
+            />
             <Button variant="ghost" onClick={handleReset}>
               重新测算
             </Button>

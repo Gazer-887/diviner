@@ -164,3 +164,16 @@ select.wb-input option {
 .anim-shake {
   animation: wb-shake 0.8s ease both;
 }
+
+/* 可访问性：尊重用户系统级「减少动画」偏好（iOS Safari、Android Chrome、
+   Windows 系统设置均可启用），关闭所有仪式感动画与过渡，避免前庭功能不适 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

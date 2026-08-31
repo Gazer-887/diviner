@@ -38,10 +38,11 @@ export function PageShell({ title, subtitle, children }: PageShellProps) {
       </section>
 
       <footer
-        className="mx-auto max-w-3xl px-5 py-10 text-center text-xs"
+        className="mx-auto max-w-3xl px-5 py-10 text-center text-xs leading-relaxed"
         style={{ color: "var(--text-faint)" }}
       >
-        本服务为传统文化娱乐参考，不构成任何决策依据
+        <p>本服务为传统文化娱乐参考，不构成医疗、投资、婚恋或任何决策依据。</p>
+        <p className="mt-1 opacity-70">心诚则灵——结果请以自己的判断为准。</p>
       </footer>
     </main>
   );

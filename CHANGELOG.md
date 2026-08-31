@@ -12,7 +12,8 @@
 - GitHub 私有仓库 diviner 创建并推送（commit 4a089ca，2026-08-31）
 - 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器 + 浏览器截图验证（commit b8a594d，2026-08-31）
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
-- 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 待定，2026-08-31）
+- 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 9e724a1，2026-08-31）
+- 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法 layout.tsx 页级 title/description/og:url + sitemap.xml + robots.txt + favicon.svg）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、prefers-reduced-motion 关闭动画、PageShell + 首页 footer 措辞优化（明确不构成医疗/投资/婚恋/决策依据）、ThemeToggle 移动端 2 字短标签适配、Viewport 配置 + 移动端 375px 逐页截图验证（commit 待定，2026-08-31）
 
 ### 修复
 
@@ -23,3 +24,5 @@
 ### 变更
 
 - .gitignore 增加 `/resources/tmp_*` 与 `/resources/shots/*-debug-*` 规则，本地排查临时文件不入库（2026-08-31）
+- 主题注册表新增 `short` 字段（2 字移动端标签）；ThemeToggle 用 sm:hidden / sm:inline 双标签切换（2026-08-31）
+- layout.tsx 新增 viewport（device-width + theme-color 暗/亮）+ 完整 metadata（title template / description / keywords / authors / robots / openGraph / twitter / icons / applicationName），sitemap.ts 与 robots.ts 增加 `export const dynamic = "force-static"` 适配 `output: export` 模式（2026-08-31）

@@ -7,6 +7,7 @@ import { PageShell } from "@/components/ui/PageShell";
 import { Field, Select } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { ResultCard } from "@/components/ui/ResultCard";
+import { ShareButton } from "@/components/ui/ShareButton";
 
 /** 十二生肖选项（选择仅作仪式感，实际结果以引擎当日生肖为准） */
 const ZODIACS = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
@@ -243,7 +244,11 @@ export default function DailyPage() {
             </ResultCard>
           </div>
 
-          <div className="anim-fade-up flex justify-center pt-1" style={{ animationDelay: "0.5s" }}>
+          <div className="anim-fade-up flex flex-wrap items-center justify-center gap-3 pt-1" style={{ animationDelay: "0.5s" }}>
+            <ShareButton
+              title={`每日运势 · ${result.date} ${result.zodiac}`}
+              text={`今日属相：${result.zodiac}\n综合运势：${result.scores.overall}/100\n事业：${result.scores.career}　财运：${result.scores.wealth}　感情：${result.scores.love}　健康：${result.scores.health}\n宜：${result.yi.join("、 ")}\n忌：${result.ji.join("、 ")}\n今日指引：${result.advice}`}
+            />
             <Button variant="ghost" onClick={handleReset}>
               重新查看
             </Button>

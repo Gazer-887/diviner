@@ -4,6 +4,7 @@ import { useTheme } from "./ThemeProvider";
 import { THEMES, THEME_KEYS } from "@/lib/theme/themes";
 
 // 主题切换器：胶囊形分段按钮，选中项用主题色高亮
+// 移动端（< sm，< 640px）用 2 字短标签避免拥挤，桌面端用完整 4 字标签
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
@@ -18,15 +19,17 @@ export function ThemeToggle() {
           key={k}
           type="button"
           onClick={() => setTheme(k)}
-          className="rounded-full px-2.5 py-1 text-xs transition-colors sm:px-3"
+          className="rounded-full px-2 py-1 text-xs transition-colors sm:px-3"
           style={
             theme === k
               ? { background: "var(--accent)", color: "var(--bg)", fontWeight: 500 }
               : { color: "var(--text-sub)" }
           }
           aria-pressed={theme === k}
+          title={THEMES[k].label}
         >
-          {THEMES[k].label}
+          <span className="sm:hidden">{THEMES[k].short}</span>
+          <span className="hidden sm:inline">{THEMES[k].label}</span>
         </button>
       ))}
     </div>

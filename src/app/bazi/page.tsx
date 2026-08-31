@@ -5,6 +5,7 @@ import { PageShell } from "@/components/ui/PageShell";
 import { ResultCard } from "@/components/ui/ResultCard";
 import { Field, Select, TextInput } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { ShareButton } from "@/components/ui/ShareButton";
 import { computeBazi } from "@/lib/engines/bazi";
 import type { BaziResult } from "@/lib/engines/types";
 
@@ -274,7 +275,11 @@ export default function BaziPage() {
             </ResultCard>
           </Stagger>
 
-          <div className="flex justify-center pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+            <ShareButton
+              title={`生辰八字 · ${result.pillars.year.full}年 ${result.dayMaster}日主`}
+              text={`四柱：${result.pillars.year.full} ${result.pillars.month.full} ${result.pillars.day.full} ${result.pillars.hour.full}\n日主：${result.dayMaster}　生肖：${result.zodiac}\n五行：金${result.fiveElements.metal} 木${result.fiveElements.wood} 水${result.fiveElements.water} 火${result.fiveElements.fire} 土${result.fiveElements.earth}`}
+            />
             <Button variant="ghost" onClick={handleReset}>
               重新测算
             </Button>
