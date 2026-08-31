@@ -13,7 +13,8 @@
 - 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器（桌面完整标签 / 移动端 2 字短标签）+ 浏览器截图验证（commit b8a594d，2026-08-31）
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
 - 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 9e724a1，2026-08-31）
-- 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法目录级 server layout.tsx 页级 title/description/og:url + `sitemap.xml` + `robots.txt` + `favicon.svg`）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、`prefers-reduced-motion` 关闭动画、PageShell + 首页 footer 免责声明措辞优化、Viewport 配置 + 移动端 375px 逐页截图验证 + 分享按钮真实点击验证（commit 待定，2026-09-01）
+- 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法目录级 server layout.tsx 页级 title/description/og:url + `sitemap.xml` + `robots.txt` + `favicon.svg`）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、`prefers-reduced-motion` 关闭动画、PageShell + 首页 footer 免责声明措辞优化、Viewport 配置 + 移动端 375px 逐页截图验证 + 分享按钮真实点击验证（commit b2e1a37，2026-09-01）
+- 阶段 5 测试交叉验证：移动端 375px 五玩法页真实点击回归（bazi/name/daily/tarot/lottery 全通）+ 边界条件测试（空输入/非法范围/超长均有校验提示）+ `tests/cross-validate.test.ts` 29 项独立真值交叉验证（干支合法性/五行守恒/塔罗 78 牌分布均匀/抽签 40 签分布/运势确定性，全量 77 测试绿）+ 6 张验证截图（commit 待定，2026-09-01）
 
 ### 修复
 
