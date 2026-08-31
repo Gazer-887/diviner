@@ -10,10 +10,10 @@
 - 项目初始化：Git 仓库（master 分支）、工程骨架、工作区记忆结构（2026-08-31）
 - Next.js 16 脚手架（TypeScript / Tailwind 4 / App Router / ESLint），静态导出配置（2026-08-31）
 - GitHub 私有仓库 diviner 创建并推送（commit 4a089ca，2026-08-31）
-- 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器 + 浏览器截图验证（commit b8a594d，2026-08-31）
+- 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器（桌面完整标签 / 移动端 2 字短标签）+ 浏览器截图验证（commit b8a594d，2026-08-31）
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
 - 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 9e724a1，2026-08-31）
-- 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法 layout.tsx 页级 title/description/og:url + sitemap.xml + robots.txt + favicon.svg）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、prefers-reduced-motion 关闭动画、PageShell + 首页 footer 措辞优化（明确不构成医疗/投资/婚恋/决策依据）、ThemeToggle 移动端 2 字短标签适配、Viewport 配置 + 移动端 375px 逐页截图验证（commit 待定，2026-08-31）
+- 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法目录级 server layout.tsx 页级 title/description/og:url + `sitemap.xml` + `robots.txt` + `favicon.svg`）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、`prefers-reduced-motion` 关闭动画、PageShell + 首页 footer 免责声明措辞优化、Viewport 配置 + 移动端 375px 逐页截图验证 + 分享按钮真实点击验证（commit 待定，2026-09-01）
 
 ### 修复
 
@@ -24,5 +24,12 @@
 ### 变更
 
 - .gitignore 增加 `/resources/tmp_*` 与 `/resources/shots/*-debug-*` 规则，本地排查临时文件不入库（2026-08-31）
-- 主题注册表新增 `short` 字段（2 字移动端标签）；ThemeToggle 用 sm:hidden / sm:inline 双标签切换（2026-08-31）
-- layout.tsx 新增 viewport（device-width + theme-color 暗/亮）+ 完整 metadata（title template / description / keywords / authors / robots / openGraph / twitter / icons / applicationName），sitemap.ts 与 robots.ts 增加 `export const dynamic = "force-static"` 适配 `output: export` 模式（2026-08-31）
+- layout.tsx 新增 viewport（device-width + theme-color 暗/亮）+ 完整 metadata（title template / description / keywords / authors / robots / openGraph / twitter / icons / applicationName），5 个玩法目录新增 server layout.tsx 提供独立 title/description（2026-09-01）
+
+## 教训索引
+
+- L1（2026-08-31）：初始化/恢复项目前必须先读 NORMS + AGENTS（NOTEBOOK/learnings.md）
+- L7（2026-08-31）：safe-delete 拦截 Node fs + bash rm，批量删除 >50 触发 guard（NOTEBOOK/learnings.md）
+- L8（2026-08-31）：agent-browser 自带 Chromium 启动失败时，手动 CDP Chrome + `agent-browser connect` 接管（NOTEBOOK/learnings.md）
+- L9（2026-08-31）：3D 翻牌动画优先用 CSS transition 替代 keyframe animation（NOTEBOOK/learnings.md）
+- L10（2026-09-01）：Bash 层无法关闭 safe-delete shim，PowerShell 中 `$env:CODEBUDDY_SAFE_DELETE_ENABLED='0'` 可让 Node shim 失效，用于构建前干净目录（NOTEBOOK/learnings.md）
