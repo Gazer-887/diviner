@@ -1,12 +1,66 @@
 @import "tailwindcss";
 
-/* 全局基础样式 —— 阶段 1 将替换为多主题设计系统 */
+/* ============ 设计系统：字体与四套主题 ============ */
 :root {
-  color-scheme: light;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  --font-serif: "Songti SC", "Noto Serif SC", "SimSun", "STSong", serif;
+  /* 默认主题：暗夜星辰 */
+  --bg: #101418;
+  --surface: #1a2128;
+  --border: rgba(212, 185, 120, 0.28);
+  --accent: #d4b978;
+  --text: #e8e4d8;
+  --text-sub: #9aa0a8;
+  --text-faint: rgba(232, 228, 216, 0.6);
+}
+
+/* 禅意水墨 */
+[data-theme="zen"] {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --border: #e0d9c8;
+  --accent: #b23a2e;
+  --text: #2b2b2b;
+  --text-sub: #77705f;
+  --text-faint: rgba(43, 43, 43, 0.6);
+}
+
+/* 国潮红金 */
+[data-theme="guo"] {
+  --bg: #16110d;
+  --surface: #211913;
+  --border: rgba(201, 162, 75, 0.32);
+  --accent: #c9a24b;
+  --text: #ede4d0;
+  --text-sub: #9f8f78;
+  --text-faint: rgba(237, 228, 208, 0.6);
+}
+
+/* 赛博玄学 */
+[data-theme="cyb"] {
+  --bg: #0e0f1a;
+  --surface: #171a2a;
+  --border: rgba(92, 225, 230, 0.25);
+  --accent: #5ce1e6;
+  --text: #e2e4f5;
+  --text-sub: #8e93ac;
+  --text-faint: rgba(226, 228, 245, 0.6);
 }
 
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }

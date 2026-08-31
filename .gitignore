@@ -6,8 +6,7 @@ PLAN/
 .workbuddy/
 
 # dependencies
-/node_modules
-/node_modules.bak
+/node_modules*
 /.pnp
 .pnp.*
 .yarn/*
@@ -20,9 +19,8 @@ PLAN/
 /coverage
 
 # next.js
-/.next/
-/.next.bak/
-/out/
+/.next*/
+/out*/
 
 # production
 /build
