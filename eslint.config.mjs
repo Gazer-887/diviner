@@ -7,14 +7,12 @@ const eslintConfig = defineConfig([
   ...nextTs,
   // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
+    // 构建产物与依赖（通配覆盖 .next/.next.bak/.next.old 等变名备份）
+    ".next*/**",
+    "out*/**",
     "build/**",
     "next-env.d.ts",
-    // 损坏备份目录（勿扫描，等确认后删除）
-    "node_modules.bak/**",
-    ".next.bak/**",
+    "node_modules*/**",
   ]),
 ]);
 

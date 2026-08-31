@@ -5,8 +5,8 @@
 
 ## 项目概述
 
-- 定位：待补充（初始化于 2026-08-31）
-- 技术栈：待定
+- 定位：多主题占卜算卦网站（八字/姓名/每日运势/塔罗/抽签解签），娱乐参考定位
+- 技术栈：Next.js 16（App Router）+ React 19 + TypeScript + Tailwind 4 + lunar-javascript（八字/姓名引擎）
 - Python 环境：`ai_env`（`D:\MiniConda3\envs\ai_env`，NORMS 强制统一使用）
 
 ## 目录约定
@@ -33,6 +33,9 @@ D:\Diviner\
 - **不入 git**：`NOTEBOOK/`、`PLAN/`、`.workbuddy/`（已写入 .gitignore）
 - **环境变量**：`.env` 不入库，模板 `.env.example`
 - **变更记录**：有意义的变更同步更新 `CHANGELOG.md`
+- **构建**：CI/标准环境用 `npm run build`；WorkBuddy 宿主（safe-delete 钩子拦 Turbopack 缓存清理）本地构建用 `npm run build:local`（webpack 模式）
+- **网络**：本机 npm/git 直连易 ECONNRESET，需 `--proxy=socks5://127.0.0.1:7897`（详见 NOTEBOOK/learnings.md L2）
+- **测试**：`npm test`（Vitest，引擎单测在 tests/）
 
 ## 工作方式（NORMS 七步流程）
 

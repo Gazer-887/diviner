@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
@@ -15,6 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
+      {/* 首屏防闪烁：在 hydration 前应用已保存主题 */}
+      <Script id="theme-init" strategy="beforeInteractive">
+        {`try{var t=localStorage.getItem("diviner-theme");if(t){document.documentElement.dataset.theme=t}}catch(e){}`}
+      </Script>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
