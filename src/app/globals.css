@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* 全局基础样式 —— 阶段 1 将替换为多主题设计系统 */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
