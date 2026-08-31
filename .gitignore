@@ -1,0 +1,44 @@
+# --- 项目内部笔记（不入 git，NORMS §3.4）---
+NOTEBOOK/
+PLAN/
+
+# --- WorkBuddy 内部数据（不入 git）---
+.workbuddy/
+
+# --- 依赖 ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- 构建产物 ---
+dist/
+build/
+out/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# --- 环境与密钥 ---
+.env
+.env.*
+!.env.example
+
+# --- 日志与临时文件 ---
+*.log
+*.tmp
+*.orig
+*.rej
+.DS_Store
+Thumbs.db
+
+# --- IDE / 编辑器 ---
+.idea/
+.vscode/
+*.swp
