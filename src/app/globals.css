@@ -1,53 +1,92 @@
 @import "tailwindcss";
 
-/* ============ 设计系统：字体与四套主题 ============ */
+/* ============================================================
+   设计系统：四套主题的完整色彩 + 装饰纹理 + 动效
+   每套主题 = 色彩变量族（无缝切换） + SVG 背景纹理（body 层）
+   + 氛围光晕 + 微交互动效；装饰透明度控制在 15%-30%
+   ============================================================ */
+
 :root {
   --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC",
     "Microsoft YaHei", sans-serif;
   --font-serif: "Songti SC", "Noto Serif SC", "SimSun", "STSong", serif;
-  /* 默认主题：暗夜星辰 */
-  --bg: #101418;
-  --surface: #1a2128;
-  --border: rgba(212, 185, 120, 0.28);
-  --accent: #d4b978;
-  --text: #e8e4d8;
-  --text-sub: #9aa0a8;
-  --text-faint: rgba(232, 228, 216, 0.6);
+
+  /* 默认主题：暗夜星辰（黑金宇宙） */
+  --bg: #0a0a12;
+  --surface: #1a1a2e;
+  --surface-2: #23233a;
+  --border: rgba(212, 175, 55, 0.28);
+  --border-strong: rgba(212, 175, 55, 0.5);
+  --accent: #d4af37;
+  --accent-soft: rgba(212, 175, 55, 0.16);
+  --text: #f2ecd8;
+  --text-sub: #b9b9c9;
+  --text-faint: rgba(242, 236, 216, 0.62);
+  --deco-a: rgba(212, 175, 55, 0.22);
+  --deco-b: rgba(120, 140, 220, 0.18);
+  --deco-c: rgba(90, 120, 200, 0.12);
+  --glow: rgba(212, 175, 55, 0.14);
+  --shadow: rgba(0, 0, 0, 0.45);
 }
 
-/* 禅意水墨 */
+/* 红豆生思（黑白灰红 · 水墨寄情） */
 [data-theme="zen"] {
-  --bg: #f7f4ee;
+  --bg: #f6f4ee;
   --surface: #ffffff;
-  --border: #e0d9c8;
-  --accent: #b23a2e;
-  --text: #2b2b2b;
-  --text-sub: #77705f;
-  --text-faint: rgba(43, 43, 43, 0.6);
+  --surface-2: #f2efe8;
+  --border: #d9d2c2;
+  --border-strong: #b8ac93;
+  --accent: #9e2a2b;
+  --accent-soft: rgba(158, 42, 43, 0.10);
+  --text: #1c1c1c;
+  --text-sub: #6b6b6b;
+  --text-faint: rgba(28, 28, 28, 0.6);
+  --deco-a: rgba(158, 42, 43, 0.07);
+  --deco-b: rgba(60, 60, 60, 0.09);
+  --deco-c: rgba(30, 30, 30, 0.06);
+  --glow: rgba(158, 42, 43, 0.06);
+  --shadow: rgba(0, 0, 0, 0.10);
 }
 
-/* 国潮红金 */
-[data-theme="guo"] {
-  --bg: #16110d;
-  --surface: #211913;
-  --border: rgba(201, 162, 75, 0.32);
-  --accent: #c9a24b;
-  --text: #ede4d0;
-  --text-sub: #9f8f78;
-  --text-faint: rgba(237, 228, 208, 0.6);
-}
-
-/* 赛博玄学 */
+/** 月明青山（黑金 · 青山映月） */
 [data-theme="cyb"] {
-  --bg: #0e0f1a;
-  --surface: #171a2a;
-  --border: rgba(92, 225, 230, 0.25);
-  --accent: #5ce1e6;
-  --text: #e2e4f5;
-  --text-sub: #8e93ac;
-  --text-faint: rgba(226, 228, 245, 0.6);
+  --bg: #0f0f1a;
+  --surface: #171a2e;
+  --surface-2: #20243c;
+  --border: rgba(0, 255, 255, 0.26);
+  --border-strong: rgba(0, 255, 255, 0.5);
+  --accent: #00ffff;
+  --accent-soft: rgba(0, 255, 255, 0.13);
+  --text: #e6e9ff;
+  --text-sub: #9aa3cc;
+  --text-faint: rgba(230, 233, 255, 0.62);
+  --deco-a: rgba(0, 255, 255, 0.20);
+  --deco-b: rgba(106, 13, 173, 0.22);
+  --deco-c: rgba(60, 120, 230, 0.14);
+  --glow: rgba(0, 255, 255, 0.13);
+  --shadow: rgba(0, 0, 0, 0.5);
 }
 
+/* 5. 昔我往矣（绿粉 · 春晓） */
+[data-theme="chun"] {
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --surface-2: #f2f6f1;
+  --border: #cfd8cf;
+  --border-strong: #a8c6a8;
+  --accent: #2e7d32;
+  --accent-soft: rgba(46, 125, 50, 0.12);
+  --text: #28403a;
+  --text-sub: #4d5f52;
+  --text-faint: rgba(40, 64, 58, 0.62);
+  --deco-a: rgba(255, 192, 203, 0.22);
+  --deco-b: rgba(46, 125, 50, 0.18);
+  --deco-c: rgba(168, 198, 168, 0.14);
+  --glow: rgba(255, 192, 203, 0.12);
+  --shadow: rgba(0, 0, 0, 0.10);
+}
+
+/* ============ 全局基础 ============ */
 html,
 body {
   max-width: 100vw;
@@ -55,9 +94,14 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* 页面切换/主题切换的整体平滑过渡 */
+main,
+header,
+footer {
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 ::selection {
@@ -65,11 +109,150 @@ body {
   color: var(--bg);
 }
 
+/* ============================================================
+   主题装饰层：统一挂到 body 上的三层
+   （1）氛围光晕层 body::before  （2）SVG 纹理层 body::after
+   ============================================================ */
+
+/* 氛围光晕：四角柔光（所有主题共用，色彩由 --deco/--glow 变量控制） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 42% at 16% 10%, var(--deco-a), transparent 64%),
+    radial-gradient(ellipse 48% 40% at 86% 18%, var(--deco-b), transparent 62%),
+    radial-gradient(ellipse 50% 55% at 55% 94%, var(--deco-c), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, var(--glow), transparent 70%);
+  transition: background 0.4s ease;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: background 0.4s ease;
+}
+
+/* ============================================================
+   第 1 套 · 暗夜星辰：星云 + 星座连线 + 星球轨道
+   ============================================================ */
+html[data-theme="star"] body::after {
+  /* 星座连线（细金线 + 星点） */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1'%3E%3Cpolyline points='40,60 120,120 90,210'/%3E%3Cpolyline points='250,40 320,110 280,200 360,260'/%3E%3Cpolyline points='60,300 150,340 240,290'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.3'%3E%3Ccircle cx='40' cy='60' r='2'/%3E%3Ccircle cx='120' cy='120' r='1.6'/%3E%3Ccircle cx='90' cy='210' r='2.2'/%3E%3Ccircle cx='250' cy='40' r='1.8'/%3E%3Ccircle cx='320' cy='110' r='2'/%3E%3Ccircle cx='280' cy='200' r='1.5'/%3E%3Ccircle cx='360' cy='260' r='2.4'/%3E%3Ccircle cx='60' cy='300' r='2'/%3E%3Ccircle cx='150' cy='340' r='1.7'/%3E%3Ccircle cx='240' cy='290' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%237b8cd6' stroke-opacity='0.14'%3E%3Ccircle cx='210' cy='210' r='120'/%3E%3Ccircle cx='210' cy='210' r='72'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.16'%3E%3Ccircle cx='210' cy='90' r='3'/%3E%3Ccircle cx='282' cy='210' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 420px 420px;
+}
+
+/* 星辰闪烁：光点明暗呼吸 */
+html[data-theme="star"] body::after,
+[data-theme="star"] .wb-glow {
+  animation: star-twinkle 6s ease-in-out infinite;
+}
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+/* ============================================================
+   第 2 套 · 红豆生思：远山 + 墨迹晕染 + 宣纸纹理
+   ============================================================ */
+html[data-theme="zen"] body::after {
+  background-image:
+    /* 远山三层（深浅错落） */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Cpath d='M0 300 L110 150 L200 240 L290 120 L380 230 L470 160 L600 300 Z' fill='%236b6b6b' fill-opacity='0.07'/%3E%3Cpath d='M0 300 L150 200 L260 280 L380 180 L520 270 L600 300 Z' fill='%23202020' fill-opacity='0.05'/%3E%3Cpath d='M0 300 L90 250 L210 300 Z' fill='%239e2a2b' fill-opacity='0.05'/%3E%3C/svg%3E"),
+    /* 毛笔笔触（斜向淡墨痕） */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='120' viewBox='0 0 300 120'%3E%3Cpath d='M10 60 Q80 20 150 55 Q220 85 290 40' fill='none' stroke='%23404040' stroke-opacity='0.06' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 600px 300px, 300px 120px;
+  background-position: bottom, top;
+  background-repeat: no-repeat;
+}
+
+/* 墨滴扩散动画（悬停在卡面时） */
+html[data-theme="zen"] .wb-card:hover .wb-ink {
+  animation: ink-spread 1.2s ease-out;
+}
+@keyframes ink-spread {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ============================================================
+   第 4 套 · 似天在水：霓虹网格 + 八卦/星盘 + 故障光效
+   ============================================================ */
+html[data-theme="cyb"] body::after {
+  /* 霓虹网格 + 八卦符号 */
+  background-image:
+    linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(0, 255, 255, 0.10) 100%),
+    linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(0, 255, 255, 0.10) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%2300ffff' stroke-opacity='0.18' stroke-width='1.5'%3E%3Ccircle cx='100' cy='100' r='46'/%3E%3Ccircle cx='100' cy='100' r='28'/%3E%3Cpolygon points='100,54 108,84 140,84 114,102 124,132 100,114 76,132 86,102 60,84 92,84'/%3E%3C/g%3E%3Cg stroke='%236a0dad' stroke-opacity='0.18' stroke-width='1.2'%3E%3Cpath d='M100 44v112M44 100h112M60 60l80 80M140 60l-80 80'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px, 40px 40px, 200px 200px;
+}
+
+/* 故障扫描线微动效 */
+html[data-theme="cyb"] .wb-card {
+  position: relative;
+}
+html[data-theme="cyb"] .wb-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 255, 255, 0.03) 3px 4px);
+  animation: glitch-scan 8s linear infinite;
+}
+@keyframes glitch-scan {
+  0% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(2px); opacity: 0.25; }
+  100% { transform: translateY(0); opacity: 0.6; }
+}
+
+/* ============================================================
+   第 4 套 · 昔我往矣：樱花花瓣 + 嫩芽 + 春雨滴
+   ============================================================ */
+html[data-theme="chun"] body::after {
+  /* 春柳垂枝 + 樱花 */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140' viewBox='0 0 180 140'%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M100 10c8 10 8 18 0 26-8-8-8-16 0-26zM140 20c7 9 7 16 0 23-7-7-7-14 0-23zM60 24c7 9 7 15 0 22-7-7-7-13 0-22z'/%3E%3C/g%3E%3Cg fill='%234caf50' fill-opacity='0.20'%3E%3Cpath d='M20 100q14-40 20-50 6 10-6 52zM44 120q10-30 14-38 4 8-8 40z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 180px 140px;
+  background-position: right top;
+  background-repeat: no-repeat;
+}
+
+/* 雨滴下落微动效（悬停卡面触发） */
+html[data-theme="chun"] .wb-card:hover .wb-ink {
+  animation: rain-drop 1s ease-in;
+}
+@keyframes rain-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 0.5; }
+  100% { transform: translateY(24px); opacity: 0; }
+}
+
+/* ============================================================
+   卡面 / 组件通用：主题微交互
+   ============================================================ */
+.wb-card {
+  background: var(--surface);
+  border-color: var(--border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.wb-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 6px 24px var(--shadow);
+}
+
 /* ============ 表单控件（Field.tsx 复用） ============ */
 .wb-input {
-  background: transparent;
+  background: var(--surface);
   color: var(--text);
   border-color: var(--border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .wb-input::placeholder {
   color: var(--text-faint);
@@ -79,49 +262,25 @@ body {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 select.wb-input option {
-  /* 下拉选项跟随当前主题（原生列表在部分浏览器用 body 底色） */
   background: var(--surface);
   color: var(--text);
 }
 
 /* ============ 通用动画 ============ */
-/* 结果淡入上浮：ResultCard 与结果区块默认使用 */
 @keyframes wb-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.anim-fade-up {
-  animation: wb-fade-up 0.45s ease both;
-}
+.anim-fade-up { animation: wb-fade-up 0.45s ease both; }
 
-/* 弹入（签条飞出、评分徽章等） */
 @keyframes wb-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  60% {
-    transform: scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0% { opacity: 0; transform: scale(0.9); }
+  60% { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
 }
-.anim-pop {
-  animation: wb-pop 0.4s cubic-bezier(0.2, 0.8, 0.3, 1.05) both;
-}
+.anim-pop { animation: wb-pop 0.4s cubic-bezier(0.2, 0.8, 0.3, 1.05) both; }
 
-/* 塔罗翻牌：父元素需带 perspective（style={{ perspective: 900 }})；
-   牌盒 wb-flip3d（preserve-3d）通过 .is-flipped 切换 rotateY 0↔180，
-   transition 完成翻牌。牌面（.wb-face-back）默认自身 rotateY(180) 朝内，
-   通过父级 rotateY 翻 180 后正面对外。 */
+/* 塔罗翻牌 */
 .wb-flip3d {
   position: relative;
   transform-style: preserve-3d;
@@ -129,48 +288,47 @@ select.wb-input option {
   transform: rotateY(0deg);
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.wb-flip3d.is-flipped {
-  transform: rotateY(180deg);
-}
+.wb-flip3d.is-flipped { transform: rotateY(180deg); }
 .wb-face {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-.wb-face-back {
-  transform: rotateY(180deg);
-}
+.wb-face-back { transform: rotateY(180deg); }
 
-/* 摇签：签筒容器晃动 */
+/* 摇签 */
 @keyframes wb-shake {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  20% {
-    transform: rotate(-7deg);
-  }
-  40% {
-    transform: rotate(6deg);
-  }
-  60% {
-    transform: rotate(-5deg);
-  }
-  80% {
-    transform: rotate(3deg);
-  }
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-7deg); }
+  40% { transform: rotate(6deg); }
+  60% { transform: rotate(-5deg); }
+  80% { transform: rotate(3deg); }
 }
-.anim-shake {
-  animation: wb-shake 0.8s ease both;
-}
+.anim-shake { animation: wb-shake 0.8s ease both; }
 
-/* 可访问性：尊重用户系统级「减少动画」偏好（iOS Safari、Android Chrome、
-   Windows 系统设置均可启用），关闭所有仪式感动画与过渡，避免前庭功能不适 */
+/* 六爻铜钱 */
+@keyframes wb-coin {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-14deg); }
+  50% { transform: translateY(2px) rotate(10deg); }
+  75% { transform: translateY(-4px) rotate(-8deg); }
+}
+.anim-coin { animation: wb-coin 0.7s ease both; }
+
+/* 主题切换按钮的选中态缩放 */
+.theme-btn {
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.theme-btn:active { transform: scale(0.94); }
+
+/* 卡片 hover 轻微上浮微交互 */
+.wb-card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+.wb-card-hover:hover { transform: translateY(-3px); box-shadow: 0 8px 28px var(--shadow); }
+
+/* 可访问性：尊重「减少动画」偏好，关闭全部动效 */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

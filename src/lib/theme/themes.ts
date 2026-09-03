@@ -1,7 +1,7 @@
 // 主题注册表：四套主题的定义与展示信息
 // CSS 变量实际值见 src/app/globals.css 的 [data-theme] 覆盖段
 
-export type ThemeKey = "star" | "zen" | "guo" | "cyb";
+export type ThemeKey = "star" | "zen" | "cyb" | "chun";
 
 export interface ThemeMeta {
   label: string;
@@ -11,10 +11,10 @@ export interface ThemeMeta {
 }
 
 export const THEMES: Record<ThemeKey, ThemeMeta> = {
-  star: { label: "暗夜星辰", short: "星辰", desc: "神秘深邃" },
-  zen: { label: "禅意水墨", short: "水墨", desc: "素雅留白" },
-  guo: { label: "国潮红金", short: "红金", desc: "华彩大气" },
-  cyb: { label: "赛博玄学", short: "玄学", desc: "前卫霓虹" },
+  star: { label: "月明青山", short: "明月", desc: "黑金映月" },
+  zen: { label: "红豆生思", short: "红豆", desc: "水墨寄情" },
+  cyb: { label: "似天在水", short: "水天", desc: "霓虹幻境" },
+  chun: { label: "昔我往矣", short: "春晓", desc: "杨柳春风" },
 };
 
 export const DEFAULT_THEME: ThemeKey = "star";

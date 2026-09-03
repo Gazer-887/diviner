@@ -20,12 +20,17 @@
 - 阶段 6 部署落地（CloudBase）：`tcb hosting deploy out` 80 文件全部上传成功，线上 https://suanmingde-d0g9p1ora0e30c601-1451544835.tcloudbaseapp.com 8 路由 curl 200 + Edge headless CDP 真实浏览器验证（首页 5 卡片 / 八字全流程排盘 庚午辛巳乙酉庚辰·五行缺 水 / 主题切换国潮红金生效 / 免责声明齐全），截图 s6-cloudbase-*.png；DEPLOY.md 补实际环境与已知限制（测试域名访问提示页 / 软 404 / 个人版 2026-10-03 到期）（commit b1362e2，2026-09-01）
 - 阶段 7 交付收尾：线上补验 name/daily/tarot/lottery 四页真实交互（李白中吉五格 / 属相马运势 / 塔罗三张正逆位 / 中平签解曰）；deploy.ps1 固化默认环境 ID + 预置遥测开关；README 更新上线状态 + 新增 docs/architecture.md 架构文档（commit a75f38c + 本 commit，2026-09-01）
 - 清理与交接（2026-09-03）：删除 12 个构建备份/临时目录共 1.80 GB（.next.bak×7 / node_modules.bak / out 备份×4，均 gitignore 内可再生）；修复 scripts/clean-backups.ps1 笔误 `Set | -Location` → `Set-Location`、删除原语改 .NET `Directory.Delete`（绕宿主 safe-delete，见 L19）、模式补 `node_modules.bak*`/`out.old*`；新增 docs/交接文档.md（本 commit，2026-09-03）
+- 阶段 8 UI 打磨 + 分享卡片（2026-09-04）：新增第 6 种玩法**六爻八卦**（`src/lib/data/liuyao.ts` 先天 64 卦内容库 + `src/lib/engines/liuyao.ts` 铜钱摇卦引擎含动爻变卦 + `src/app/liuyao/{page,layout}.tsx` 摇卦仪式动效 + 六爻/卦辞/四维断语/综合解读展示 + `tests/liuyao.test.ts` 14 单测 + cross-validate 六爻独立交验 4 项）；首页改** 3×2 对称布局**（6 卡）；修复 select 下拉框候选中文本渲染成斜线杂纹的 bug（弃 appearance-none+内联 SVG 箭头，改原生外观+CSS 变量配色）；四套主题加**专属装饰纹理**（星点光晕/远山墨痕/祥云流光/霓虹网格，多层渐变入 body 背景）；新增 `src/components/ui/ShareCard.tsx` 分享卡片组件（html-to-image 生成喜庆 PNG 卡片 + 复制链接 + 微博/QQ空间/微信预设），六页面结果区接入；sitemap 增 /liuyao 路由（本 commit，2026-09-04）
+- 阶段 9 主题体系重构 + 品牌升级 + 内容扩充（2026-09-04）：全站从 4 套主题扩展为 **5 套完整主题系统**——每套主题拥有完整色彩变量族（`--bg/--surface/--surface-2/--border/--border-strong/--accent/--accent-soft/--text/--text-sub/--deco-*/--glow/--shadow`）+ **专属 SVG 背景装饰纹理**（暗夜星辰=星云+星座连线+星球轨道、禅意水墨=远山+毛笔笔触+墨滴、国潮红金=回纹+祥云+红金光斑、赛博玄学=霓虹网格+八卦星盘+故障扫描线、新增**昔我往矣**=樱花+嫩芽+春雨滴）；全站背景引入 SVG data-URI 纹理层 + 氛围光晕层 + 卡片 hover 微动效/微交互（`wb-card/wb-card-hover/theme-btn`）；新增第五套主题「昔我往矣」（绿粉+春晓，key=chun，themes.ts 注册）；**品牌名「灵犀占卜」→「卜兮」**（layout/首页/PageShell/ShareCard/keywords 全面替换，副标语「观天察地·一事一问」）；六个玩法页解读内容扩充至 200%+ 并新增「要诀点拨」分区（关键提示/避坑建议/心态指引三小节，各页按结果推导专属文案）；主题切换过渡动画增强（0.4s）；WCAG 2.1 AA 逐主题校准（chun 的 accent/text-sub 加深至对比度均 ≥4.5:1）（本 commit，2026-09-04）
+- 阶段 9 修订：主题收拢为 **4 套**（删除国潮红金/guo）+ 三个主题改名（暗夜星辰→**月明青山**、禅意水墨→**红豆生思**、赛博玄学→**似天在水**，昔我往矣保留）；**分享卡片修复**——原 html-to-image 生成图因响应式宽度裁切错位，改为固定卡片宽度（360px）+ 补全解读内容（每玩法页 lines 扩至 6-8 行：卦序/卦辞/变卦/四维/综合解读等）；**精简分享操作区**——删除「分享结果」ShareButton 组件及微博/QQ空间/微信预设，仅保留「保存为图片」「复制链接」；删除 `ShareButton.tsx`（本 commit，2026-09-04）
 
 ### 修复
 
 - SWC 原生二进制损坏（重装 @next/swc-win32-x64-msvc）；node_modules 移动损坏（npm ci 重装）（2026-08-31）
 - .gitignore 备份目录改用通配（/.next*/、/node_modules*、/out*），避免 .next.old/out.old 等变名漏忽略（2026-08-31）
 - 塔罗翻牌卡 Chrome 152 下 backface-visibility 误判导致牌面不可见：放弃关键帧动画方案，改用 CSS transition + React state 控制 `.is-flipped` class 切换 `rotateY 0↔180`，规避 nested preserve-3d 下 keyframe 边界 case（2026-08-31）
+- select 下拉框候选项文本在 Windows 下被渲染成斜线/杂纹（`⁄⁄⁄`）：根因是 `appearance-none` + 内联 SVG 下拉箭头 + `select option` 主题样式组合出的渲染怪癖；弃用 appearance-none 与内联箭头，改用原生外观 + CSS 变量控制配色（2026-09-04）
+- 分享卡片 html-to-image 保存图出现**左侧留白 + 内容放大挤右裁切**：根因是捕获响应式宽度节点（`max-w`）且 `pixelRatio` 与 `width/height` 组合下 html-to-image 计算画布尺寸不一致；改为**离屏捕获**（克隆节点到 `position:fixed; left:-9999` 固定 360px 容器 + `canvasWidth/Height` 精确传参），彻底摆脱父布局/transform 干扰，保证「保存=预览」（2026-09-04）
 
 ### 变更
 

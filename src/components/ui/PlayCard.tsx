@@ -12,7 +12,7 @@ export function PlayCard({ icon, title, desc, href }: PlayCardProps) {
   return (
     <Link
       href={href}
-      className="block rounded-2xl border p-4 transition-opacity hover:opacity-85"
+      className="wb-card wb-card-hover block rounded-2xl border p-4 transition-opacity hover:opacity-85"
       style={{ background: "var(--surface)", borderColor: "var(--border)" }}
     >
       <span

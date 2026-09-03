@@ -19,7 +19,7 @@ export function ThemeToggle() {
           key={k}
           type="button"
           onClick={() => setTheme(k)}
-          className="rounded-full px-2 py-1 text-xs transition-colors sm:px-3"
+          className="theme-btn rounded-full px-2 py-1 text-xs sm:px-3"
           style={
             theme === k
               ? { background: "var(--accent)", color: "var(--bg)", fontWeight: 500 }

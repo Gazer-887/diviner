@@ -151,6 +151,69 @@ export interface LotteryResult {
   drawnAt: string;
 }
 
+// ---------- 六爻八卦 ----------
+/** 单爻状态（铜钱摇卦结果，3 枚铜钱之和） */
+export type LiuyaoLineValue = 6 | 7 | 8 | 9;
+/** 6=老阴(动) 7=少阳(静) 8=少阴(静) 9=老阳(动) */
+
+export interface LiuyaoLine {
+  /** 本爻原始值 6/7/8/9 */
+  value: LiuyaoLineValue;
+  /** 本爻阴阳：7/9 为阳（—），6/8 为阴（--） */
+  yinYang: "yang" | "yin";
+  /** 是否动爻（老阴 6 / 老阳 9 为动） */
+  moving: boolean;
+}
+
+/** 单卦（三爻为一下卦/上卦） */
+export interface LiuyaoTrigram {
+  /** 卦名：乾/兑/离/震/巽/坎/艮/坤 */
+  name: string;
+  /** 符号：☰☱☲☳☴☵☶☷ */
+  symbol: string;
+  /** 自然象：天/泽/火/雷/风/水/山/地 */
+  nature: string;
+}
+
+export interface LiuyaoResult {
+  /** 本卦（六爻：初爻→上爻） */
+  lines: LiuyaoLine[];
+  /** 下卦（内卦）与上卦（外卦） */
+  lower: LiuyaoTrigram;
+  upper: LiuyaoTrigram;
+  /** 本卦信息（卦名/卦辞/吉凶/断语） */
+  benGua: LiuyaoGua;
+  /** 变卦信息；无动爻时为空 */
+  bianGua?: LiuyaoGua;
+  /** 动爻所在爻位（1-6，初爻为 1）；无动爻时为空 */
+  movingPositions: number[];
+  /** 综合解读 */
+  summary: string;
+  /** 所问之事（原样回显） */
+  question?: string;
+  /** ISO 时间 */
+  castAt: string;
+}
+
+export interface LiuyaoGua {
+  /** 卦名：如 乾为天 / 火水未济 */
+  name: string;
+  /** 卦序（1-64，先天卦序） */
+  order: number;
+  /** 吉凶等级 */
+  level: "大吉" | "吉" | "中平" | "小凶" | "凶";
+  /** 卦辞（白话，1-2 句） */
+  guaci: string;
+  /** 断语：事业 */
+  career: string;
+  /** 断语：感情 */
+  love: string;
+  /** 断语：财运 */
+  wealth: string;
+  /** 断语：健康 */
+  health: string;
+}
+
 // ---------- 通用包装 ----------
 export interface EngineResult<T> {
   ok: boolean;

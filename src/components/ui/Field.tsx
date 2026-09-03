@@ -42,17 +42,17 @@ export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
 }
 
 // ---------- 下拉选择 ----------
+// 说明：不用 appearance-none + 内联 SVG 箭头（Windows 中文 select 下会把选中文本
+// 渲染成斜线/杂纹）。改为保留原生外观、直接以 CSS 变量控制配色，最稳妥。
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
       {...props}
-      className={`${CONTROL_CLASS} cursor-pointer appearance-none bg-no-repeat pr-9 ${props.className ?? ""}`}
+      className={`${CONTROL_CLASS} cursor-pointer ${props.className ?? ""}`}
       style={{
+        color: "var(--text)",
+        backgroundColor: "var(--surface)",
         ...props.style,
-        // 下拉箭头跟随主题色（内联 SVG data URI）
-        backgroundImage:
-          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%239aa0a8' stroke-width='1.6' d='M2 4l4 4 4-4'/%3E%3C/svg%3E\")",
-        backgroundPosition: "right 0.875rem center",
       }}
     >
       {props.children}

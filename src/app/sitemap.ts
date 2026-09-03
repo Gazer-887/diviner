@@ -6,10 +6,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner.example.co
 export const dynamic = "force-static";
 
 // 静态导出下 next build 会预渲染 sitemap.xml
-// 覆盖五个玩法 + 首页
+// 覆盖六个玩法 + 首页
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const routes = ["", "/bazi", "/name", "/daily", "/tarot", "/lottery"];
+  const routes = ["", "/bazi", "/name", "/daily", "/tarot", "/lottery", "/liuyao"];
   return routes.map((r) => ({
     url: `${SITE_URL}${r}`,
     lastModified: now,

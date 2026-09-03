@@ -22,7 +22,7 @@ export function PageShell({ title, subtitle, children }: PageShellProps) {
           className="font-serif text-lg font-medium transition-opacity hover:opacity-80"
           style={{ color: "var(--accent)" }}
         >
-          ← 灵犀 · 占卜
+          ← 卜兮
         </Link>
         <ThemeToggle />
       </header>

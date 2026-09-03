@@ -3,9 +3,9 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
-const SITE_NAME = "灵犀占卜";
+const SITE_NAME = "卜兮";
 const SITE_DESCRIPTION =
-  "多主题占卜算卦网站——生辰八字、姓名测试、每日运势、塔罗、抽签解签。传统文化娱乐参考，不构成任何决策依据。";
+  "卜兮——多主题占卜算卦网站，生辰八字、姓名测试、每日运势、塔罗、抽签解签、六爻八卦。传统文化娱乐参考，不构成任何决策依据。";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner.example.com";
 
 export const viewport: Viewport = {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "五行",
     "十二生肖",
     "传统文化",
-    "灵犀占卜",
+    "卜兮",
   ],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,

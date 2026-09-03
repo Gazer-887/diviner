@@ -283,3 +283,64 @@ describe("交叉验证：每日运势", () => {
     expect(res.data!.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });
+
+// ---------- 六爻：独立视角交叉验证（不依赖引擎内部逻辑） ----------
+import { castLiuyao } from "../src/lib/engines/liuyao";
+import { HEXAGRAMS, TRIGRAMS } from "../src/lib/data/liuyao";
+
+describe("交叉验证：六爻", () => {
+  it("六爻结构合法：每爻 value∈{6,7,8,9}，阴阳与动爻标记自洽", () => {
+    for (let i = 0; i < 200; i++) {
+      const res = castLiuyao("测", () => Math.random());
+      expect(res.ok).toBe(true);
+      const r = res.data!;
+      expect(r.lines).toHaveLength(6);
+      for (const l of r.lines) {
+        expect([6, 7, 8, 9]).toContain(l.value);
+        const expectYang = l.value === 7 || l.value === 9;
+        expect(l.yinYang === "yang").toBe(expectYang);
+        expect(l.moving).toBe(l.value === 6 || l.value === 9);
+      }
+    }
+  });
+
+  it("上下卦名拼接必命中 64 卦内容库，且上/下卦为八卦之一", () => {
+    for (let i = 0; i < 200; i++) {
+      const r = castLiuyao("测", () => Math.random()).data!;
+      const trigramNames = Object.values(TRIGRAMS).map((t) => t.name);
+      expect(trigramNames).toContain(r.upper.name);
+      expect(trigramNames).toContain(r.lower.name);
+      expect(HEXAGRAMS[`${r.upper.name}${r.lower.name}`]).toBeDefined();
+    }
+  });
+
+  it("独立真值：六爻全为老阳（9）→ 全阳 → 上下卦皆乾 → 乾为天，且全动", () => {
+    // rng 固定 0.4（<0.5 → 每枚铜钱 3，三枚和 9 = 老阳）
+    const fixed = () => 0.4;
+    const r = castLiuyao("测", fixed).data!;
+    expect(r.movingPositions).toEqual([1, 2, 3, 4, 5, 6]);
+    expect(r.benGua.name).toBe("乾为天");
+    expect(r.upper.name).toBe("乾");
+    expect(r.lower.name).toBe("乾");
+    // 变卦：六爻全翻转 → 皆阴 → 坤为地
+    expect(r.bianGua!.name).toBe("坤为地");
+  });
+
+  it("动爻数与 bianGua 存在性一致：有动爻才有变卦", () => {
+    let withMoving = 0;
+    let withoutMoving = 0;
+    for (let i = 0; i < 500; i++) {
+      const r = castLiuyao("测", () => Math.random()).data!;
+      if (r.movingPositions.length > 0) {
+        withMoving++;
+        expect(r.bianGua).toBeDefined();
+      } else {
+        withoutMoving++;
+        expect(r.bianGua).toBeUndefined();
+      }
+    }
+    // 两类都应出现（避免恒动/恒静导致覆盖缺失）
+    expect(withMoving).toBeGreaterThan(0);
+    expect(withoutMoving).toBeGreaterThan(0);
+  });
+});

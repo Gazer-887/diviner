@@ -12,7 +12,7 @@ export interface ResultCardProps {
 export function ResultCard({ title, tag, children }: ResultCardProps) {
   return (
     <section
-      className="anim-fade-up rounded-2xl border p-5"
+      className="wb-card wb-card-hover anim-fade-up rounded-2xl border p-5"
       style={{ background: "var(--surface)", borderColor: "var(--border)" }}
     >
       {(title || tag) && (
