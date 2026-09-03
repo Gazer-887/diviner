@@ -14,7 +14,9 @@
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
 - 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 9e724a1，2026-08-31）
 - 阶段 4 打磨：SEO 完整化（layout.tsx 全站 metadata + 5 个玩法目录级 server layout.tsx 页级 title/description/og:url + `sitemap.xml` + `robots.txt` + `favicon.svg`）、ShareButton 组件（Web Share API + clipboard fallback + 失败反馈）、`prefers-reduced-motion` 关闭动画、PageShell + 首页 footer 免责声明措辞优化、Viewport 配置 + 移动端 375px 逐页截图验证 + 分享按钮真实点击验证（commit b2e1a37，2026-09-01）
-- 阶段 5 测试交叉验证：移动端 375px 五玩法页真实点击回归（bazi/name/daily/tarot/lottery 全通）+ 边界条件测试（空输入/非法范围/超长均有校验提示）+ `tests/cross-validate.test.ts` 29 项独立真值交叉验证（干支合法性/五行守恒/塔罗 78 牌分布均匀/抽签 40 签分布/运势确定性，全量 77 测试绿）+ 6 张验证截图（commit 待定，2026-09-01）
+- 阶段 5 测试交叉验证：移动端 375px 五玩法页真实点击回归（bazi/name/daily/tarot/lottery 全通）+ 边界条件测试（空输入/非法范围/超长均有校验提示）+ `tests/cross-validate.test.ts` 29 项独立真值交叉验证（干支合法性/五行守恒/塔罗 78 牌分布均匀/抽签 40 签分布/运势确定性，全量 77 测试绿）+ 6 张验证截图（commit 22e059f，2026-09-01）
+- 阶段 6 部署准备：静态产物 `out/` 独立运行验证（python -m http.server + agent-browser 真实点击八字页 → 四柱/五行/命理解读正常渲染，无 dev 角标）+ DEPLOY.md 部署指南（EdgeOne Pages 首选 / CloudBase 备选，含 CLI 登录/项目配置/验证清单/回滚方案）+ s6-static-*.png 截图（commit 9a7545d，2026-09-01）
+- 阶段 6 增强：自定义 `src/app/not-found.tsx`（「此签未现」+ 返回首页链接 + 免责声明）+ `src/app/api/README.md` 二期扩展预留占位（用户数据/访问统计/分享卡片接口草案）+ README.md 同步阶段 0-6 全状态、技术栈（Next.js 16 + React 19）、测试矩阵、关键教训索引（commit 3ed81ad，2026-09-01）
 
 ### 修复
 
@@ -26,6 +28,7 @@
 
 - .gitignore 增加 `/resources/tmp_*` 与 `/resources/shots/*-debug-*` 规则，本地排查临时文件不入库（2026-08-31）
 - layout.tsx 新增 viewport（device-width + theme-color 暗/亮）+ 完整 metadata（title template / description / keywords / authors / robots / openGraph / twitter / icons / applicationName），5 个玩法目录新增 server layout.tsx 提供独立 title/description（2026-09-01）
+- 自定义 `not-found.tsx` 替代默认 Next.js 404；`api/README.md` 标记二期扩展位（2026-09-01）
 
 ## 教训索引
 
