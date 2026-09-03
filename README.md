@@ -1,7 +1,7 @@
 # Diviner · 灵犀占卜
 
 > 多主题风格、去古板化的现代占卜算卦网站 —— 八字 / 姓名 / 每日运势 / 塔罗 / 抽签解签
-> 定位：传统文化 × 娱乐参考 | 技术栈：Next.js 16 + React 19 + TypeScript | 部署：腾讯云 EdgeOne Pages
+> 定位：传统文化 × 娱乐参考 | 技术栈：Next.js 16 + React 19 + TypeScript | 部署：腾讯云 CloudBase（已上线）
 
 ## 项目状态
 
@@ -15,7 +15,7 @@
 | 3 五玩法页面 | `/bazi` `/name` `/daily` `/tarot` `/lottery` + 公共组件（PageShell/Field/Button/ResultCard） + 动画体系 | 浏览器交互回归 |
 | 4 打磨 | SEO（sitemap/robots/favicon）+ ShareButton（Web Share + clipboard）+ 响应式 + prefers-reduced-motion + 免责声明 | 移动端 375px 全页截图 |
 | 5 测试交叉验证 | `tests/cross-validate.test.ts` 29 项独立真值验证（干支合法性/五行守恒/塔罗分布/抽签分布/运势确定性） + 边界条件 | **77 测试全绿** |
-| 6 部署准备 | 静态产物 `out/` 独立运行验证 + DEPLOY.md 部署指南（EdgeOne Pages / CloudBase） | 待用户扫码认证后一键部署 |
+| 6 部署上线 | CloudBase CLI 部署静态托管 `out/` → **https://suanmingde-d0g9p1ora0e30c601-1451544835.tcloudbaseapp.com** | 8 路由 200 + 五玩法页真实交互回归 |
 
 ## 目录结构
 
@@ -94,11 +94,16 @@ npx eslint .
 
 ## 部署
 
-详见 `DEPLOY.md`：
+**已上线（2026-09-01）**：https://suanmingde-d0g9p1ora0e30c601-1451544835.tcloudbaseapp.com
 
-- **首选**：腾讯云 EdgeOne Pages（默认 `*.edgeone.app` 子域名免备案）
-- **备选**：腾讯云 CloudBase 静态托管（`*.tcloudbaseapp.com`）
-- **MVP**：静态产物 `out/` 已就绪，可独立托管
+- 平台：腾讯云 CloudBase 静态托管（环境 `suanmingde-d0g9p1ora0e30c601`，个人版，ap-shanghai）
+- 一键部署：`pwsh scripts/deploy.ps1`（构建 → 验证 → 登录 → 部署，默认部署到上述环境）
+- 详细指南与已知限制（测试域名提示页 / 软 404 / 环境到期）见 `DEPLOY.md`
+- 备选：EdgeOne Pages（默认 `*.edgeone.app` 子域名免备案，需在控制台配置）
+
+## 架构说明
+
+详见 `docs/architecture.md`：五引擎纯前端架构（确定性 RNG + 内容库）、静态导出、二期 `/api` 扩展点。
 
 ## 设计系统
 
@@ -128,6 +133,7 @@ npx eslint .
 - **L11**：构建前必停 dev server → mv .next → build（dev server 锁目录导致 mv Permission denied）
 - **L15**：PowerShell 中 `$env:CODEBUDDY_SAFE_DELETE_ENABLED='0'` 可关闭 safe-delete shim
 - **L16**：`NO_PROXY=github.com git push` 绕过 Clash 代理导致的 schannel TLS 握手失败
+- **L17**：CloudBase CLI 3.x 登录态存 `~/.config/.cloudbase/auth.json`；无 TTY 时预写 `usage.json`（`{"agreeCollect": false}`）跳过遥测卡死询问
 
 ## 许可证
 
