@@ -12,7 +12,7 @@ const PLAYS = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
+    <main className="min-h-screen" style={{ color: "var(--text)" }}>
       <header className="mx-auto flex max-w-3xl items-center justify-between px-5 py-5">
         <div className="flex items-baseline gap-3">
           <span className="font-serif text-lg font-medium" style={{ color: "var(--accent)" }}>

@@ -31,6 +31,7 @@
 - 塔罗翻牌卡 Chrome 152 下 backface-visibility 误判导致牌面不可见：放弃关键帧动画方案，改用 CSS transition + React state 控制 `.is-flipped` class 切换 `rotateY 0↔180`，规避 nested preserve-3d 下 keyframe 边界 case（2026-08-31）
 - select 下拉框候选项文本在 Windows 下被渲染成斜线/杂纹（`⁄⁄⁄`）：根因是 `appearance-none` + 内联 SVG 下拉箭头 + `select option` 主题样式组合出的渲染怪癖；弃用 appearance-none 与内联箭头，改用原生外观 + CSS 变量控制配色（2026-09-04）
 - 分享卡片 html-to-image 保存图出现**左侧留白 + 内容放大挤右裁切**：根因是捕获响应式宽度节点（`max-w`）且 `pixelRatio` 与 `width/height` 组合下 html-to-image 计算画布尺寸不一致；改为**离屏捕获**（克隆节点到 `position:fixed; left:-9999` 固定 360px 容器 + `canvasWidth/Height` 精确传参），彻底摆脱父布局/transform 干扰，保证「保存=预览」（2026-09-04）
+- 主题装饰层在玩法子页面不可见：六玩法页共用 `PageShell.tsx` 的 `<main>` 含有不透明 `background: var(--bg)`，盖住了 `body::before/::after` 氛围装饰层；移除该背景只保留 `color`，首页与子页面装饰均可见（2026-09-04）
 
 ### 变更
 

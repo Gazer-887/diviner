@@ -15,7 +15,7 @@ export interface PageShellProps {
 // 所有玩法页共用，保证全站结构一致
 export function PageShell({ title, subtitle, children }: PageShellProps) {
   return (
-    <main className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
+    <main className="min-h-screen" style={{ color: "var(--text)" }}>
       <header className="mx-auto flex max-w-3xl items-center justify-between px-5 py-5">
         <Link
           href="/"

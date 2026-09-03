@@ -48,7 +48,7 @@
   --shadow: rgba(0, 0, 0, 0.10);
 }
 
-/** 月明青山（黑金 · 青山映月） */
+/* 似天在水（黑蓝 · 霓虹幻境） */
 [data-theme="cyb"] {
   --bg: #0f0f1a;
   --surface: #171a2e;
@@ -67,7 +67,7 @@
   --shadow: rgba(0, 0, 0, 0.5);
 }
 
-/* 5. 昔我往矣（绿粉 · 春晓） */
+/* 4. 昔我往矣（绿粉 · 春晓） */
 [data-theme="chun"] {
   --bg: #f8f9fa;
   --surface: #ffffff;
@@ -87,14 +87,25 @@
 }
 
 /* ============ 全局基础 ============ */
-html,
-body {
+html {
   max-width: 100vw;
   overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   transition: background 0.4s ease, color 0.4s ease;
+}
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  /* 背景交给 html，body 保持透明，让 ::before/::after 装饰层可见 */
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  transition: color 0.4s ease;
+  /* 为伪元素建立独立的层叠上下文，避免 z-index 负值逃到根上下文后面 */
+  isolation: isolate;
 }
 
 /* 页面切换/主题切换的整体平滑过渡 */
@@ -135,21 +146,33 @@ body::after {
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 0.6;
   transition: background 0.4s ease;
 }
 
 /* ============================================================
-   第 1 套 · 暗夜星辰：星云 + 星座连线 + 星球轨道
+   第 1 套 · 月明青山：星云 + 星座连线 + 星球轨道 + 青山映月
    ============================================================ */
 html[data-theme="star"] body::after {
-  /* 星座连线（细金线 + 星点） */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1'%3E%3Cpolyline points='40,60 120,120 90,210'/%3E%3Cpolyline points='250,40 320,110 280,200 360,260'/%3E%3Cpolyline points='60,300 150,340 240,290'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.3'%3E%3Ccircle cx='40' cy='60' r='2'/%3E%3Ccircle cx='120' cy='120' r='1.6'/%3E%3Ccircle cx='90' cy='210' r='2.2'/%3E%3Ccircle cx='250' cy='40' r='1.8'/%3E%3Ccircle cx='320' cy='110' r='2'/%3E%3Ccircle cx='280' cy='200' r='1.5'/%3E%3Ccircle cx='360' cy='260' r='2.4'/%3E%3Ccircle cx='60' cy='300' r='2'/%3E%3Ccircle cx='150' cy='340' r='1.7'/%3E%3Ccircle cx='240' cy='290' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%237b8cd6' stroke-opacity='0.14'%3E%3Ccircle cx='210' cy='210' r='120'/%3E%3Ccircle cx='210' cy='210' r='72'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.16'%3E%3Ccircle cx='210' cy='90' r='3'/%3E%3Ccircle cx='282' cy='210' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 420px 420px;
+  /*
+    四层叠加（由底到顶）：
+    1. 星座连线与轨道
+    2. 青山剪影（底部远山）
+    3. 右上角明月柔光
+    4. 缓慢流转的星带
+  */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1'%3E%3Cpolyline points='40,60 120,120 90,210'/%3E%3Cpolyline points='250,40 320,110 280,200 360,260'/%3E%3Cpolyline points='60,300 150,340 240,290'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.3'%3E%3Ccircle cx='40' cy='60' r='2'/%3E%3Ccircle cx='120' cy='120' r='1.6'/%3E%3Ccircle cx='90' cy='210' r='2.2'/%3E%3Ccircle cx='250' cy='40' r='1.8'/%3E%3Ccircle cx='320' cy='110' r='2'/%3E%3Ccircle cx='280' cy='200' r='1.5'/%3E%3Ccircle cx='360' cy='260' r='2.4'/%3E%3Ccircle cx='60' cy='300' r='2'/%3E%3Ccircle cx='150' cy='340' r='1.7'/%3E%3Ccircle cx='240' cy='290' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%237b8cd6' stroke-opacity='0.14'%3E%3Ccircle cx='210' cy='210' r='120'/%3E%3Ccircle cx='210' cy='210' r='72'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.16'%3E%3Ccircle cx='210' cy='90' r='3'/%3E%3Ccircle cx='282' cy='210' r='2.5'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='220' viewBox='0 0 800 220' preserveAspectRatio='none'%3E%3Cpath d='M0 220 L90 130 L180 185 L260 95 L360 170 L460 110 L560 180 L680 120 L800 220 Z' fill='%231e2a24' fill-opacity='0.20'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Ccircle cx='90' cy='90' r='44' fill='rgba(242,236,216,0.12)'/%3E%3Ccircle cx='90' cy='90' r='44' fill='none' stroke='rgba(242,236,216,0.32)' stroke-width='1'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cg fill='%23d4af37' fill-opacity='0.22'%3E%3Ccircle cx='30' cy='40' r='1.2'/%3E%3Ccircle cx='90' cy='120' r='1'/%3E%3Ccircle cx='160' cy='60' r='1.4'/%3E%3Ccircle cx='220' cy='160' r='1.1'/%3E%3Ccircle cx='300' cy='80' r='1.3'/%3E%3Ccircle cx='340' cy='220' r='1'/%3E%3Ccircle cx='70' cy='240' r='1.2'/%3E%3Ccircle cx='260' cy='300' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 420px 420px, 100% 220px, 180px 180px, 360px 360px;
+  background-position: center, center bottom, right 24px top 24px, center;
+  background-repeat: repeat, no-repeat, no-repeat, repeat;
+  animation: star-river 60s linear infinite;
 }
 
-/* 星辰闪烁：光点明暗呼吸 */
-html[data-theme="star"] body::after,
+/* 星辰闪烁：光点明暗呼吸（仅作用于 .wb-glow） */
 [data-theme="star"] .wb-glow {
   animation: star-twinkle 6s ease-in-out infinite;
 }
@@ -158,40 +181,100 @@ html[data-theme="star"] body::after,
   50% { opacity: 1; }
 }
 
+/* 星河流转：缓慢平移的星带 */
+@keyframes star-river {
+  0% { background-position: center, center bottom, right 24px top 24px, 0 0; }
+  100% { background-position: center, center bottom, right 24px top 24px, 360px 120px; }
+}
+
+/* 月明青山：卡片 hover 泛金色辉光 */
+html[data-theme="star"] .wb-card:hover {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 8px 28px var(--shadow),
+    0 0 24px var(--glow);
+}
+
 /* ============================================================
-   第 2 套 · 红豆生思：远山 + 墨迹晕染 + 宣纸纹理
+   第 2 套 · 红豆生思：远山 + 墨迹晕染 + 宣纸纹理 + 红豆点题
    ============================================================ */
+
+/* 宣纸纤维纹理：覆盖 body::before，极淡竖纹 + 微噪 */
+html[data-theme="zen"] body::before {
+  background:
+    radial-gradient(ellipse 55% 42% at 16% 10%, var(--deco-a), transparent 64%),
+    radial-gradient(ellipse 48% 40% at 86% 18%, var(--deco-b), transparent 62%),
+    radial-gradient(ellipse 50% 55% at 55% 94%, var(--deco-c), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, var(--glow), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(120, 110, 95, 0.04) 0 1px, transparent 1px 18px);
+}
+
 html[data-theme="zen"] body::after {
   background-image:
+    /* 水墨晕染底（让远山更润） */
+    radial-gradient(ellipse 80% 55% at 50% 100%, rgba(32, 32, 32, 0.08) 0, transparent 70%),
     /* 远山三层（深浅错落） */
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Cpath d='M0 300 L110 150 L200 240 L290 120 L380 230 L470 160 L600 300 Z' fill='%236b6b6b' fill-opacity='0.07'/%3E%3Cpath d='M0 300 L150 200 L260 280 L380 180 L520 270 L600 300 Z' fill='%23202020' fill-opacity='0.05'/%3E%3Cpath d='M0 300 L90 250 L210 300 Z' fill='%239e2a2b' fill-opacity='0.05'/%3E%3C/svg%3E"),
     /* 毛笔笔触（斜向淡墨痕） */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='120' viewBox='0 0 300 120'%3E%3Cpath d='M10 60 Q80 20 150 55 Q220 85 290 40' fill='none' stroke='%23404040' stroke-opacity='0.06' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-size: 600px 300px, 300px 120px;
-  background-position: bottom, top;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='120' viewBox='0 0 300 120'%3E%3Cpath d='M10 60 Q80 20 150 55 Q220 85 290 40' fill='none' stroke='%23404040' stroke-opacity='0.06' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E"),
+    /* 红豆点题：右上角小红果 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%239e2a2b' stroke-width='1' stroke-opacity='0.30'%3E%3Cpath d='M120 20 Q110 50 90 70'/%3E%3Cpath d='M125 35 Q135 55 145 60'/%3E%3C/g%3E%3Cg fill='%239e2a2b' fill-opacity='0.25'%3E%3Cellipse cx='90' cy='72' rx='5' ry='6.5'/%3E%3Cellipse cx='125' cy='28' rx='4.5' ry='6'/%3E%3Cellipse cx='145' cy='62' rx='4' ry='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, 600px 300px, 300px 120px, 160px 160px;
+  background-position: center, bottom, top, right 24px top 24px;
   background-repeat: no-repeat;
 }
 
 /* 墨滴扩散动画（悬停在卡面时） */
-html[data-theme="zen"] .wb-card:hover .wb-ink {
-  animation: ink-spread 1.2s ease-out;
+html[data-theme="zen"] .wb-card {
+  position: relative;
+  overflow: hidden;
 }
-@keyframes ink-spread {
+html[data-theme="zen"] .wb-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(64, 64, 64, 0.16) 0, transparent 60%);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: none;
+}
+html[data-theme="zen"] .wb-card:hover::before {
+  animation: ink-ripple 1.2s ease-out;
+}
+@keyframes ink-ripple {
   0% { transform: scale(0.4); opacity: 0; }
-  60% { opacity: 0.5; }
-  100% { transform: scale(1.4); opacity: 0; }
+  50% { opacity: 0.45; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* 红豆生思：卡片 hover 淡墨描边 */
+html[data-theme="zen"] .wb-card:hover {
+  border-color: var(--border-strong);
+  box-shadow:
+    0 0 0 1px rgba(64, 64, 64, 0.18),
+    0 8px 28px var(--shadow);
 }
 
 /* ============================================================
-   第 4 套 · 似天在水：霓虹网格 + 八卦/星盘 + 故障光效
+   第 3 套 · 似天在水：霓虹网格 + 八卦/星盘 + 故障光效 + 水面倒影
    ============================================================ */
 html[data-theme="cyb"] body::after {
-  /* 霓虹网格 + 八卦符号 */
+  /*
+    由底到顶：
+    1. 水面倒影（底部蓝紫渐隐）
+    2. 柔化霓虹网格（斜向光带弱化机械感）
+    3. 加大加亮的八卦/星盘符号
+  */
   background-image:
+    linear-gradient(to bottom, transparent 0%, transparent 55%, rgba(60, 120, 230, 0.14) 75%, rgba(106, 13, 173, 0.18) 92%, rgba(0, 255, 255, 0.10) 100%),
+    linear-gradient(60deg, transparent 0 48%, rgba(0, 255, 255, 0.06) 49% 51%, transparent 52% 100%),
     linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(0, 255, 255, 0.10) 100%),
     linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(0, 255, 255, 0.10) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%2300ffff' stroke-opacity='0.18' stroke-width='1.5'%3E%3Ccircle cx='100' cy='100' r='46'/%3E%3Ccircle cx='100' cy='100' r='28'/%3E%3Cpolygon points='100,54 108,84 140,84 114,102 124,132 100,114 76,132 86,102 60,84 92,84'/%3E%3C/g%3E%3Cg stroke='%236a0dad' stroke-opacity='0.18' stroke-width='1.2'%3E%3Cpath d='M100 44v112M44 100h112M60 60l80 80M140 60l-80 80'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 40px 40px, 40px 40px, 200px 200px;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cdefs%3E%3Cfilter id='g' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeDropShadow dx='0' dy='0' stdDeviation='3' flood-color='%2300ffff' flood-opacity='0.28'/%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='%2300ffff' stroke-opacity='0.26' stroke-width='1.8' filter='url(%23g)'%3E%3Ccircle cx='120' cy='120' r='58'/%3E%3Ccircle cx='120' cy='120' r='34'/%3E%3Cpolygon points='120,54 130,96 168,96 136,120 148,162 120,138 92,162 104,120 72,96 110,96'/%3E%3C/g%3E%3Cg stroke='%236a0dad' stroke-opacity='0.26' stroke-width='1.6' filter='url(%23g)'%3E%3Cpath d='M120 44v152M44 120h152M64 64l112 112M176 64L64 176'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%, 120px 120px, 40px 40px, 40px 40px, 240px 240px;
+  background-position: center, center, center, center, center;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat;
 }
 
 /* 故障扫描线微动效 */
@@ -212,16 +295,48 @@ html[data-theme="cyb"] .wb-card::after {
   100% { transform: translateY(0); opacity: 0.6; }
 }
 
+/* 似天在水：卡片 hover 青色霓虹辉光 + 轻微信号抖动 */
+html[data-theme="cyb"] .wb-card:hover {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 255, 0.35),
+    0 8px 28px var(--shadow),
+    0 0 22px rgba(0, 255, 255, 0.16);
+  animation: signal-jitter 0.28s ease-in-out;
+}
+@keyframes signal-jitter {
+  0%, 100% { transform: translateY(-3px) translateX(0); }
+  20% { transform: translateY(-3px) translateX(-1px); }
+  40% { transform: translateY(-3px) translateX(1px); }
+  60% { transform: translateY(-3px) translateX(-1px); }
+  80% { transform: translateY(-3px) translateX(1px); }
+}
+
 /* ============================================================
-   第 4 套 · 昔我往矣：樱花花瓣 + 嫩芽 + 春雨滴
+   第 4 套 · 昔我往矣：樱花花瓣 + 嫩芽 + 春雨滴 + 柳絮春风
    ============================================================ */
 html[data-theme="chun"] body::after {
-  /* 春柳垂枝 + 樱花 */
+  /*
+    由底到顶：
+    1. 底部嫩草芽剪影
+    2. 春柳垂枝 + 樱花
+    3. 柳絮/樱花瓣飘落层
+    4. 右上角小蝴蝶
+  */
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140' viewBox='0 0 180 140'%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M100 10c8 10 8 18 0 26-8-8-8-16 0-26zM140 20c7 9 7 16 0 23-7-7-7-14 0-23zM60 24c7 9 7 15 0 22-7-7-7-13 0-22z'/%3E%3C/g%3E%3Cg fill='%234caf50' fill-opacity='0.20'%3E%3Cpath d='M20 100q14-40 20-50 6 10-6 52zM44 120q10-30 14-38 4 8-8 40z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 180px 140px;
-  background-position: right top;
-  background-repeat: no-repeat;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='80' viewBox='0 0 800 80' preserveAspectRatio='none'%3E%3Cg fill='%232e7d32' fill-opacity='0.18'%3E%3Cpath d='M0 80 L20 55 L35 80 ZM50 80 L70 50 L90 80 ZM120 80 L145 58 L165 80 ZM220 80 L240 52 L260 80 ZM320 80 L345 60 L365 80 ZM420 80 L440 48 L465 80 ZM520 80 L545 62 L565 80 ZM620 80 L640 54 L665 80 ZM720 80 L745 58 L765 80 Z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140' viewBox='0 0 180 140'%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M100 10c8 10 8 18 0 26-8-8-8-16 0-26zM140 20c7 9 7 16 0 23-7-7-7-14 0-23zM60 24c7 9 7 15 0 22-7-7-7-13 0-22z'/%3E%3C/g%3E%3Cg fill='%234caf50' fill-opacity='0.20'%3E%3Cpath d='M20 100q14-40 20-50 6 10-6 52zM44 120q10-30 14-38 4 8-8 40z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23ffffff' fill-opacity='0.28'%3E%3Ccircle cx='40' cy='40' r='2.2'/%3E%3Ccircle cx='180' cy='90' r='1.8'/%3E%3Ccircle cx='280' cy='60' r='2'/%3E%3Ccircle cx='90' cy='180' r='1.6'/%3E%3Ccircle cx='240' cy='240' r='2.2'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M150 150c4 5 4 9 0 12-4-4-4-7 0-12zM220 200c3 4 3 7 0 10-3-3-3-6 0-10z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%232e7d32' stroke-width='1.2' stroke-opacity='0.30'%3E%3Cpath d='M95 25 Q80 50 70 70'/%3E%3Cpath d='M95 25 Q105 45 100 60'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.30'%3E%3Cpath d='M70 70c4 4 4 8 0 11-3-4-3-7 0-11zM100 60c3 3 3 6 0 9-3-3-3-5 0-9z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 80px, 180px 140px, 320px 320px, 120px 120px;
+  background-position: center bottom, right top, 0 0, right 16px top 16px;
+  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+}
+
+/* 柳絮/花瓣缓慢飘落 */
+@keyframes willow-drift {
+  0% { background-position: center bottom, right top, 0 0, right 16px top 16px; }
+  100% { background-position: center bottom, right top, 320px 160px, right 16px top 16px; }
 }
 
 /* 雨滴下落微动效（悬停卡面触发） */
@@ -232,6 +347,24 @@ html[data-theme="chun"] .wb-card:hover .wb-ink {
   0% { transform: translateY(0); opacity: 0; }
   30% { opacity: 0.5; }
   100% { transform: translateY(24px); opacity: 0; }
+}
+
+/* 昔我往矣：卡片 hover 柔粉辉光 */
+html[data-theme="chun"] .wb-card:hover {
+  border-color: var(--border-strong);
+  box-shadow:
+    0 0 0 1px rgba(255, 192, 203, 0.35),
+    0 8px 28px var(--shadow),
+    0 0 22px rgba(255, 192, 203, 0.14);
+}
+
+/* 蝴蝶振翅：轻盈持续，不依赖 :has()，兼容更广 */
+html[data-theme="chun"] body::after {
+  animation: willow-drift 14s linear infinite, butterfly-flap 3.2s ease-in-out infinite;
+}
+@keyframes butterfly-flap {
+  0%, 100% { background-size: 100% 80px, 180px 140px, 320px 320px, 120px 120px; }
+  50% { background-size: 100% 80px, 180px 140px, 320px 320px, 115px 120px; }
 }
 
 /* ============================================================
@@ -325,6 +458,30 @@ select.wb-input option {
 /* 卡片 hover 轻微上浮微交互 */
 .wb-card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
 .wb-card-hover:hover { transform: translateY(-3px); box-shadow: 0 8px 28px var(--shadow); }
+
+/* 响应式：移动端弱化背景装饰，避免干扰内容阅读与点击 */
+@media (max-width: 640px) {
+  html[data-theme="star"] body::after,
+  html[data-theme="zen"] body::after,
+  html[data-theme="cyb"] body::after,
+  html[data-theme="chun"] body::after {
+    opacity: 0.4;
+  }
+  /* 移动端停止大幅位移动效，保留极淡呼吸 */
+  html[data-theme="star"] body::after {
+    animation: none;
+  }
+  html[data-theme="chun"] body::after {
+    animation: none;
+  }
+  /* 小屏上减弱 cyb 故障效果 */
+  html[data-theme="cyb"] .wb-card::after {
+    animation: none;
+  }
+  html[data-theme="cyb"] .wb-card:hover {
+    animation: none;
+  }
+}
 
 /* 可访问性：尊重「减少动画」偏好，关闭全部动效 */
 @media (prefers-reduced-motion: reduce) {
