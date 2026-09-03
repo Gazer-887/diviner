@@ -17,7 +17,7 @@
 - 阶段 5 测试交叉验证：移动端 375px 五玩法页真实点击回归（bazi/name/daily/tarot/lottery 全通）+ 边界条件测试（空输入/非法范围/超长均有校验提示）+ `tests/cross-validate.test.ts` 29 项独立真值交叉验证（干支合法性/五行守恒/塔罗 78 牌分布均匀/抽签 40 签分布/运势确定性，全量 77 测试绿）+ 6 张验证截图（commit 22e059f，2026-09-01）
 - 阶段 6 部署准备：静态产物 `out/` 独立运行验证（python -m http.server + agent-browser 真实点击八字页 → 四柱/五行/命理解读正常渲染，无 dev 角标）+ DEPLOY.md 部署指南（EdgeOne Pages 首选 / CloudBase 备选，含 CLI 登录/项目配置/验证清单/回滚方案）+ s6-static-*.png 截图（commit 9a7545d，2026-09-01）
 - 阶段 6 增强：自定义 `src/app/not-found.tsx`（「此签未现」+ 返回首页链接 + 免责声明）+ `src/app/api/README.md` 二期扩展预留占位（用户数据/访问统计/分享卡片接口草案）+ README.md 同步阶段 0-6 全状态、技术栈（Next.js 16 + React 19）、测试矩阵、关键教训索引（commit 3ed81ad，2026-09-01）
-- 阶段 6 部署落地（CloudBase）：`tcb hosting deploy out` 80 文件全部上传成功，线上 https://suanmingde-d0g9p1ora0e30c601-1451544835.tcloudbaseapp.com 8 路由 curl 200 + Edge headless CDP 真实浏览器验证（首页 5 卡片 / 八字全流程排盘 庚午辛巳乙酉庚辰·五行缺 水 / 主题切换国潮红金生效 / 免责声明齐全），截图 s6-cloudbase-*.png；DEPLOY.md 补实际环境与已知限制（测试域名访问提示页 / 软 404 / 个人版 2026-10-03 到期）（本 commit，2026-09-01）
+- 阶段 6 部署落地（CloudBase）：`tcb hosting deploy out` 80 文件全部上传成功，线上 https://suanmingde-d0g9p1ora0e30c601-1451544835.tcloudbaseapp.com 8 路由 curl 200 + Edge headless CDP 真实浏览器验证（首页 5 卡片 / 八字全流程排盘 庚午辛巳乙酉庚辰·五行缺 水 / 主题切换国潮红金生效 / 免责声明齐全），截图 s6-cloudbase-*.png；DEPLOY.md 补实际环境与已知限制（测试域名访问提示页 / 软 404 / 个人版 2026-10-03 到期）（commit b1362e2，2026-09-01）
 
 ### 修复
 
