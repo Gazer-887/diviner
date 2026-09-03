@@ -12,6 +12,18 @@ Set-Location $root
 # 关闭 safe-delete shim（L15 教训：构建前必须设）
 $env:CODEBUDDY_SAFE_DELETE_ENABLED = '0'
 
+# 已上线环境（2026-09-01 CloudBase CLI 部署）；回车即用默认值
+$defaultEnvId = 'suanmingde-d0g9p1ora0e30c601'
+
+# 预置遥测开关，跳过无 TTY 下 tcb 的「是否收集使用数据」卡死询问（L17）
+$usageFile = Join-Path $env:USERPROFILE '.config\.cloudbase\usage.json'
+try {
+    if (-not (Test-Path (Split-Path $usageFile))) {
+        New-Item -ItemType Directory -Path (Split-Path $usageFile) -Force | Out-Null
+    }
+    Set-Content -Path $usageFile -Value '{"agreeCollect": false}' -Encoding UTF8
+} catch { Write-Host "（跳过 usage.json 预置：$($_.Exception.Message)）" -ForegroundColor DarkGray }
+
 Write-Host "`n[Diviner] 部署流程`n" -ForegroundColor Cyan
 
 # 1. 干净构建
@@ -54,11 +66,9 @@ if ($LASTEXITCODE -ne 0) {
 
 # 4. 部署
 Write-Host "`n[4/4] 部署 out/ 到腾讯云静态托管 ..." -ForegroundColor Yellow
-$envId = Read-Host "请输入 CloudBase 环境 ID（首次部署留空创建新环境）"
+$envId = Read-Host "请输入 CloudBase 环境 ID（默认 $defaultEnvId，直接回车）"
 if ([string]::IsNullOrWhiteSpace($envId)) {
-    Write-Host "首次部署：请先在 CloudBase 控制台创建环境，然后重新运行此脚本。" -ForegroundColor Yellow
-    Write-Host "或参考 DEPLOY.md 中的 EdgeOne Pages 流程。" -ForegroundColor Yellow
-    exit 0
+    $envId = $defaultEnvId
 }
 
 tcb hosting deploy out -e $envId

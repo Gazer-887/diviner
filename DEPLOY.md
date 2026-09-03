@@ -127,16 +127,18 @@ node "C:/Users/Gazer/.workbuddy/binaries/node/workspace/node_modules/@cloudbase/
 
 ## 五、部署后验证清单
 
-- [ ] 首页加载（200 + 5 玩法卡片可见）
-- [ ] 5 玩法页各访问一次 + 表单提交正常
-- [ ] 主题切换 4 主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）
-- [ ] 分享按钮触发 Web Share / clipboard 复制
-- [ ] sitemap.xml 包含 6 URL
-- [ ] robots.txt 含 sitemap 引用
-- [ ] 移动端 375px 视口布局正常
+> 状态：✅ 2026-09-01 CloudBase 线上（suanmingde-d0g9p1ora0e30c601）验证通过；截图 resources/shots/s6-cloudbase-*.png
+
+- [x] 首页加载（200 + 5 玩法卡片可见）
+- [x] 5 玩法页各访问一次 + 表单提交正常（八字 1990/5/20 辰时排盘 / 姓名 李白 → 中吉五格三才 / 运势 属相马 → 总览宜忌指引 / 塔罗三张牌阵正逆位 / 抽签提问 → 中平签解曰指引）
+- [x] 主题切换 4 主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学，点击国潮红金 aria-pressed=true）
+- [ ] 分享按钮触发 Web Share / clipboard 复制（本地产物已验证 ✓ 已复制，线上未复测）
+- [x] sitemap.xml 包含 6 URL
+- [x] robots.txt 含 sitemap 引用
+- [ ] 移动端 375px 视口布局正常（本地产物 375px 已验证，线上未复测）
 - [ ] Lighthouse / PageSpeed 性能评分（建议 > 90）
-- [ ] 4 主题 CSS 变量正确加载（防闪烁脚本工作）
-- [ ] 免责声明 footer 在所有页面底部
+- [x] 4 主题 CSS 变量正确加载（防闪烁脚本工作）
+- [x] 免责声明 footer 在所有页面底部
 
 ## 六、注意事项
 
