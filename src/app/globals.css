@@ -46,6 +46,8 @@
   --deco-c: rgba(30, 30, 30, 0.06);
   --glow: rgba(158, 42, 43, 0.06);
   --shadow: rgba(0, 0, 0, 0.10);
+  /* 红豆生思：楷体优先，字带笔锋，更贴水墨 */
+  --font-serif: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", "Noto Serif SC", serif;
 }
 
 /* 似天在水（黑蓝 · 霓虹幻境） */
@@ -84,6 +86,8 @@
   --deco-c: rgba(168, 198, 168, 0.14);
   --glow: rgba(255, 192, 203, 0.12);
   --shadow: rgba(0, 0, 0, 0.10);
+  /* 昔我往矣：圆体优先，笔画圆润，呼应春柔 */
+  --font-serif: "Yuanti SC", "YouYuan", "Hiragino Sans GB", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 
 /* ============ 全局基础 ============ */
@@ -150,26 +154,65 @@ body::after {
   transition: background 0.4s ease;
 }
 
+/* ------------------------------------------------------------
+   主题动态层（P0 性能改造专用）
+   html::before = 漂移层（星带 / 柳絮）   html::after = 点景层（蝴蝶）
+   这两层只动 transform / opacity，全程留在 GPU 合成层，
+   用来替代原先 body::after 上的 background-position 平移
+   （后者每帧都要重绘整屏，是长页面掉帧与耗电的主因）。
+   默认 display:none，由各主题按需启用。
+   ------------------------------------------------------------ */
+html::before,
+html::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+}
+
+/* 主题切换时装饰层淡入：四套各用一个 keyframes，
+   animation-name 变化才会重新触发动画，达到「换肤有仪式感」。
+   只写 from，to 取元素自身的计算值（桌面 0.6 / 移动 0.4），不写死终点。 */
+@keyframes deco-fade-star { from { opacity: 0; } }
+@keyframes deco-fade-zen { from { opacity: 0; } }
+@keyframes deco-fade-cyb { from { opacity: 0; } }
+@keyframes deco-fade-chun { from { opacity: 0; } }
+
 /* ============================================================
    第 1 套 · 月明青山：星云 + 星座连线 + 星球轨道 + 青山映月
    ============================================================ */
 html[data-theme="star"] body::after {
   /*
-    四层叠加（由底到顶）：
+    静态纹理三层（由底到顶），不再带任何动画：
     1. 星座连线与轨道
     2. 青山剪影（底部远山）
     3. 右上角明月柔光
-    4. 缓慢流转的星带
+    原第 4 层「星带」已迁到 html::before 动态层（见下）
   */
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23d4af37' stroke-opacity='0.22' stroke-width='1'%3E%3Cpolyline points='40,60 120,120 90,210'/%3E%3Cpolyline points='250,40 320,110 280,200 360,260'/%3E%3Cpolyline points='60,300 150,340 240,290'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.3'%3E%3Ccircle cx='40' cy='60' r='2'/%3E%3Ccircle cx='120' cy='120' r='1.6'/%3E%3Ccircle cx='90' cy='210' r='2.2'/%3E%3Ccircle cx='250' cy='40' r='1.8'/%3E%3Ccircle cx='320' cy='110' r='2'/%3E%3Ccircle cx='280' cy='200' r='1.5'/%3E%3Ccircle cx='360' cy='260' r='2.4'/%3E%3Ccircle cx='60' cy='300' r='2'/%3E%3Ccircle cx='150' cy='340' r='1.7'/%3E%3Ccircle cx='240' cy='290' r='2'/%3E%3C/g%3E%3Cg fill='none' stroke='%237b8cd6' stroke-opacity='0.14'%3E%3Ccircle cx='210' cy='210' r='120'/%3E%3Ccircle cx='210' cy='210' r='72'/%3E%3C/g%3E%3Cg fill='%23d4af37' fill-opacity='0.16'%3E%3Ccircle cx='210' cy='90' r='3'/%3E%3Ccircle cx='282' cy='210' r='2.5'/%3E%3C/g%3E%3C/svg%3E"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='220' viewBox='0 0 800 220' preserveAspectRatio='none'%3E%3Cpath d='M0 220 L90 130 L180 185 L260 95 L360 170 L460 110 L560 180 L680 120 L800 220 Z' fill='%231e2a24' fill-opacity='0.20'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Ccircle cx='90' cy='90' r='44' fill='rgba(242,236,216,0.12)'/%3E%3Ccircle cx='90' cy='90' r='44' fill='none' stroke='rgba(242,236,216,0.32)' stroke-width='1'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cg fill='%23d4af37' fill-opacity='0.22'%3E%3Ccircle cx='30' cy='40' r='1.2'/%3E%3Ccircle cx='90' cy='120' r='1'/%3E%3Ccircle cx='160' cy='60' r='1.4'/%3E%3Ccircle cx='220' cy='160' r='1.1'/%3E%3Ccircle cx='300' cy='80' r='1.3'/%3E%3Ccircle cx='340' cy='220' r='1'/%3E%3Ccircle cx='70' cy='240' r='1.2'/%3E%3Ccircle cx='260' cy='300' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 420px 420px, 100% 220px, 180px 180px, 360px 360px;
-  background-position: center, center bottom, right 24px top 24px, center;
-  background-repeat: repeat, no-repeat, no-repeat, repeat;
-  animation: star-river 60s linear infinite;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Ccircle cx='90' cy='90' r='44' fill='rgba(242,236,216,0.12)'/%3E%3Ccircle cx='90' cy='90' r='44' fill='none' stroke='rgba(242,236,216,0.32)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 420px 420px, 100% 220px, 180px 180px;
+  background-position: center, center bottom, right 24px top 24px;
+  background-repeat: repeat, no-repeat, no-repeat;
+  /* 只保留静态纹理；星带平移交给 html::before 动态层，主题切换时淡入 */
+  animation: deco-fade-star 0.45s ease;
+}
+
+/* 星河流转：星带独立成层，平移一个 tile（360px）后无缝衔接 */
+html[data-theme="star"]::before {
+  display: block;
+  /* 四周各外扩一个 tile 以上，平移时边缘不会露白 */
+  inset: -400px;
+  opacity: 0.7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cg fill='%23d4af37' fill-opacity='0.22'%3E%3Ccircle cx='30' cy='40' r='1.2'/%3E%3Ccircle cx='90' cy='120' r='1'/%3E%3Ccircle cx='160' cy='60' r='1.4'/%3E%3Ccircle cx='220' cy='160' r='1.1'/%3E%3Ccircle cx='300' cy='80' r='1.3'/%3E%3Ccircle cx='340' cy='220' r='1'/%3E%3Ccircle cx='70' cy='240' r='1.2'/%3E%3Ccircle cx='260' cy='300' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px 360px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  animation: star-river 60s linear infinite, deco-fade-star 0.45s ease;
 }
 
 /* 星辰闪烁：光点明暗呼吸（仅作用于 .wb-glow） */
@@ -181,10 +224,10 @@ html[data-theme="star"] body::after {
   50% { opacity: 1; }
 }
 
-/* 星河流转：缓慢平移的星带 */
+/* 星河流转：只动 transform，位移量 = 一个 tile，首尾无缝 */
 @keyframes star-river {
-  0% { background-position: center, center bottom, right 24px top 24px, 0 0; }
-  100% { background-position: center, center bottom, right 24px top 24px, 360px 120px; }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(360px, 360px, 0); }
 }
 
 /* 月明青山：卡片 hover 泛金色辉光 */
@@ -222,6 +265,7 @@ html[data-theme="zen"] body::after {
   background-size: auto, 600px 300px, 300px 120px, 160px 160px;
   background-position: center, bottom, top, right 24px top 24px;
   background-repeat: no-repeat;
+  animation: deco-fade-zen 0.45s ease;
 }
 
 /* 墨滴扩散动画（悬停在卡面时） */
@@ -275,6 +319,7 @@ html[data-theme="cyb"] body::after {
   background-size: 100% 100%, 120px 120px, 40px 40px, 40px 40px, 240px 240px;
   background-position: center, center, center, center, center;
   background-repeat: no-repeat, repeat, repeat, repeat, repeat;
+  animation: deco-fade-cyb 0.45s ease;
 }
 
 /* 故障扫描线微动效 */
@@ -317,26 +362,53 @@ html[data-theme="cyb"] .wb-card:hover {
    ============================================================ */
 html[data-theme="chun"] body::after {
   /*
-    由底到顶：
+    静态纹理两层（由底到顶），不再带任何动画：
     1. 底部嫩草芽剪影
     2. 春柳垂枝 + 樱花
-    3. 柳絮/樱花瓣飘落层
-    4. 右上角小蝴蝶
+    原第 3 层「柳絮」迁到 html::before，第 4 层「蝴蝶」迁到 html::after
   */
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='80' viewBox='0 0 800 80' preserveAspectRatio='none'%3E%3Cg fill='%232e7d32' fill-opacity='0.18'%3E%3Cpath d='M0 80 L20 55 L35 80 ZM50 80 L70 50 L90 80 ZM120 80 L145 58 L165 80 ZM220 80 L240 52 L260 80 ZM320 80 L345 60 L365 80 ZM420 80 L440 48 L465 80 ZM520 80 L545 62 L565 80 ZM620 80 L640 54 L665 80 ZM720 80 L745 58 L765 80 Z'/%3E%3C/g%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140' viewBox='0 0 180 140'%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M100 10c8 10 8 18 0 26-8-8-8-16 0-26zM140 20c7 9 7 16 0 23-7-7-7-14 0-23zM60 24c7 9 7 15 0 22-7-7-7-13 0-22z'/%3E%3C/g%3E%3Cg fill='%234caf50' fill-opacity='0.20'%3E%3Cpath d='M20 100q14-40 20-50 6 10-6 52zM44 120q10-30 14-38 4 8-8 40z'/%3E%3C/g%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23ffffff' fill-opacity='0.28'%3E%3Ccircle cx='40' cy='40' r='2.2'/%3E%3Ccircle cx='180' cy='90' r='1.8'/%3E%3Ccircle cx='280' cy='60' r='2'/%3E%3Ccircle cx='90' cy='180' r='1.6'/%3E%3Ccircle cx='240' cy='240' r='2.2'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M150 150c4 5 4 9 0 12-4-4-4-7 0-12zM220 200c3 4 3 7 0 10-3-3-3-6 0-10z'/%3E%3C/g%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%232e7d32' stroke-width='1.2' stroke-opacity='0.30'%3E%3Cpath d='M95 25 Q80 50 70 70'/%3E%3Cpath d='M95 25 Q105 45 100 60'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.30'%3E%3Cpath d='M70 70c4 4 4 8 0 11-3-4-3-7 0-11zM100 60c3 3 3 6 0 9-3-3-3-5 0-9z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 100% 80px, 180px 140px, 320px 320px, 120px 120px;
-  background-position: center bottom, right top, 0 0, right 16px top 16px;
-  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='140' viewBox='0 0 180 140'%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M100 10c8 10 8 18 0 26-8-8-8-16 0-26zM140 20c7 9 7 16 0 23-7-7-7-14 0-23zM60 24c7 9 7 15 0 22-7-7-7-13 0-22z'/%3E%3C/g%3E%3Cg fill='%234caf50' fill-opacity='0.20'%3E%3Cpath d='M20 100q14-40 20-50 6 10-6 52zM44 120q10-30 14-38 4 8-8 40z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 80px, 180px 140px;
+  background-position: center bottom, right top;
+  background-repeat: no-repeat, no-repeat;
+  /* 柳絮与蝴蝶迁出，交给下方 html::before / ::after 动态层 */
+  animation: deco-fade-chun 0.45s ease;
 }
 
-/* 柳絮/花瓣缓慢飘落 */
+/* 柳絮飘落：整块 tile 位移一个周期后无缝衔接 */
+html[data-theme="chun"]::before {
+  display: block;
+  inset: -360px;
+  opacity: 0.7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23ffffff' fill-opacity='0.28'%3E%3Ccircle cx='40' cy='40' r='2.2'/%3E%3Ccircle cx='180' cy='90' r='1.8'/%3E%3Ccircle cx='280' cy='60' r='2'/%3E%3Ccircle cx='90' cy='180' r='1.6'/%3E%3Ccircle cx='240' cy='240' r='2.2'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.28'%3E%3Cpath d='M150 150c4 5 4 9 0 12-4-4-4-7 0-12zM220 200c3 4 3 7 0 10-3-3-3-6 0-10z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 320px 320px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  animation: willow-drift 18s linear infinite, deco-fade-chun 0.45s ease;
+}
+
+/* 蝴蝶点景：独立成一小块，用 scaleX 模拟振翅（原先动 background-size 会整屏重绘） */
+html[data-theme="chun"]::after {
+  display: block;
+  top: 16px;
+  right: 16px;
+  width: 120px;
+  height: 120px;
+  opacity: 0.7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%232e7d32' stroke-width='1.2' stroke-opacity='0.30'%3E%3Cpath d='M95 25 Q80 50 70 70'/%3E%3Cpath d='M95 25 Q105 45 100 60'/%3E%3C/g%3E%3Cg fill='%23ffc0cb' fill-opacity='0.30'%3E%3Cpath d='M70 70c4 4 4 8 0 11-3-4-3-7 0-11zM100 60c3 3 3 6 0 9-3-3-3-5 0-9z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  background-position: top right;
+  background-repeat: no-repeat;
+  transform-origin: center;
+  animation: butterfly-flap 3.2s ease-in-out infinite;
+}
+
+/* 柳絮/花瓣缓慢飘落：只动 transform，位移量 = 一个 tile（320px），首尾无缝 */
 @keyframes willow-drift {
-  0% { background-position: center bottom, right top, 0 0, right 16px top 16px; }
-  100% { background-position: center bottom, right top, 320px 160px, right 16px top 16px; }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(320px, 320px, 0); }
 }
 
 /* 雨滴下落微动效（悬停卡面触发） */
@@ -358,13 +430,10 @@ html[data-theme="chun"] .wb-card:hover {
     0 0 22px rgba(255, 192, 203, 0.14);
 }
 
-/* 蝴蝶振翅：轻盈持续，不依赖 :has()，兼容更广 */
-html[data-theme="chun"] body::after {
-  animation: willow-drift 14s linear infinite, butterfly-flap 3.2s ease-in-out infinite;
-}
+/* 蝴蝶振翅：scaleX 呼吸，纯合成层，不触发重绘 */
 @keyframes butterfly-flap {
-  0%, 100% { background-size: 100% 80px, 180px 140px, 320px 320px, 120px 120px; }
-  50% { background-size: 100% 80px, 180px 140px, 320px 320px, 115px 120px; }
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.93); }
 }
 
 /* ============================================================
@@ -379,6 +448,25 @@ html[data-theme="chun"] body::after {
   border-color: var(--border-strong);
   box-shadow: 0 6px 24px var(--shadow);
 }
+
+/* ---- 主题形态差异：让「换肤」不只换颜色，轮廓气质也跟着变 ---- */
+/* 月明青山：大圆角，夜色柔和 */
+html[data-theme="star"] .wb-card { border-radius: 22px; }
+/* 红豆生思：小圆角，接近宣纸压边的方正 */
+html[data-theme="zen"] .wb-card { border-radius: 6px; }
+/* 似天在水：近乎直角，硬朗；另加一道内描边做「双线」机甲感
+   （不用 clip-path 折角，否则会把 hover 的外发光一起裁掉） */
+html[data-theme="cyb"] .wb-card { border-radius: 2px; }
+html[data-theme="cyb"] .wb-card::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(0, 255, 255, 0.10);
+  border-radius: 1px;
+  pointer-events: none;
+}
+/* 昔我往矣：超大圆角，花瓣般的柔边 */
+html[data-theme="chun"] .wb-card { border-radius: 26px; }
 
 /* ============ 表单控件（Field.tsx 复用） ============ */
 .wb-input {
@@ -459,6 +547,15 @@ select.wb-input option {
 .wb-card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
 .wb-card-hover:hover { transform: translateY(-3px); box-shadow: 0 8px 28px var(--shadow); }
 
+/* 按压反馈：hover 上浮基础上轻微下沉回缩，松手弹回。
+   放在 hover 规则之后，保证 :active 优先级生效；
+   各主题自带的 hover 辉光（金/墨/青/粉）不受影响。 */
+.wb-card:active,
+.wb-card-hover:active {
+  transform: translateY(-1px) scale(0.99);
+  transition-duration: 0.12s;
+}
+
 /* 响应式：移动端弱化背景装饰，避免干扰内容阅读与点击 */
 @media (max-width: 640px) {
   html[data-theme="star"] body::after,
@@ -467,12 +564,14 @@ select.wb-input option {
   html[data-theme="chun"] body::after {
     opacity: 0.4;
   }
-  /* 移动端停止大幅位移动效，保留极淡呼吸 */
-  html[data-theme="star"] body::after {
+  /* 移动端停掉大位移位移动效，并把动态层归位到初始构图，
+     避免动画中途进入小视口时「停在半途、构图偏移」 */
+  html[data-theme="star"]::before,
+  html[data-theme="chun"]::before,
+  html[data-theme="chun"]::after {
     animation: none;
-  }
-  html[data-theme="chun"] body::after {
-    animation: none;
+    transform: none;
+    opacity: 0.4;
   }
   /* 小屏上减弱 cyb 故障效果 */
   html[data-theme="cyb"] .wb-card::after {
