@@ -153,6 +153,8 @@ export default function NamePage() {
           {/* 总评 */}
           <div className="anim-fade-up" style={{ animationDelay: "0.05s" }}>
             <ResultCard title="总评" tag={result.name}>
+              {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+              <div className="wb-ritual" aria-hidden="true" />
               <div className="flex items-center gap-4">
                 <div className="shrink-0">
                   <div

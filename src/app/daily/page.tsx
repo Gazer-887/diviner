@@ -172,6 +172,8 @@ export default function DailyPage() {
           {/* 今日总览 */}
           <div className="anim-fade-up" style={{ animationDelay: "0.1s" }}>
             <ResultCard title="今日总览">
+              {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+              <div className="wb-ritual" aria-hidden="true" />
               <div className="flex items-baseline justify-between">
                 <span className="text-sm" style={{ color: "var(--text-sub)" }}>
                   {formatDateText(result.date)}

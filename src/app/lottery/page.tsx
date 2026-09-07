@@ -193,6 +193,8 @@ export default function LotteryPage() {
 
           <div className="anim-fade-up" style={{ animationDelay: "0.12s" }}>
             <ResultCard title="签文">
+              {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+              <div className="wb-ritual" aria-hidden="true" />
               <div className="flex items-start gap-4">
                 <span
                   className="anim-pop font-serif text-2xl font-medium leading-none"

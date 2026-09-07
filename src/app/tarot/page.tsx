@@ -192,6 +192,8 @@ export default function TarotPage() {
             title="翻牌仪式"
             tag={result.spread === "three" ? "三张 · 过去现在未来" : "单张 · 现时指引"}
           >
+            {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+            <div className="wb-ritual" aria-hidden="true" />
             {result.spread === "three" ? (
               <div className="grid grid-cols-3 gap-3">
                 {result.draws.map((draw, i) => (
