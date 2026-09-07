@@ -215,6 +215,8 @@ export default function BaziPage() {
       {result && (
         <>
           <ResultCard title="四柱排盘">
+            {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+            <div className="wb-ritual" aria-hidden="true" />
             <div className="flex">
               {PILLARS.map((p) => {
                 const pillar = result.pillars[p.key];

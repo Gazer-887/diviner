@@ -171,12 +171,18 @@ export default function LiuyaoPage() {
             </div>
           )}
 
-          {/* 卦象展示 */}
-          <div className="anim-fade-up" style={{ animationDelay: "0.12s" }}>
+          {/* 卦象展示：key 随 castAt 变化，重摇时整卡重挂载以重播仪式动画 */}
+          <div
+            key={result.castAt}
+            className="anim-fade-up"
+            style={{ animationDelay: "0.12s" }}
+          >
             <ResultCard
               title="卦象"
               tag={`${result.lower.symbol}${result.upper.symbol} · 上${result.upper.name}下${result.lower.name}`}
             >
+              {/* 阶段 12 仪式元素：四主题在结果首卡呈现专属装饰（纯展示、aria-hidden） */}
+              <div className="wb-ritual" aria-hidden="true" />
               {/* 六爻，初爻在下 */}
               <div className="flex flex-col-reverse items-center gap-2.5">
                 {result.lines.map((line, i) => (

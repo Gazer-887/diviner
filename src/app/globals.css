@@ -440,6 +440,11 @@ html[data-theme="chun"] .wb-card:hover {
    卡面 / 组件通用：主题微交互
    ============================================================ */
 .wb-card {
+  /* 建立局部 stacking context：让内部 .wb-ritual 的 z-index:-1
+     只相对本卡片定层，不会逃逸到 body 装饰层之后 */
+  isolation: isolate;
+  /* 定位上下文：.wb-ritual 等 absolute 装饰相对卡片定层 */
+  position: relative;
   background: var(--surface);
   border-color: var(--border);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
@@ -554,6 +559,211 @@ select.wb-input option {
 .wb-card-hover:active {
   transform: translateY(-1px) scale(0.99);
   transition-duration: 0.12s;
+}
+
+/* ============================================================
+   阶段 12 · 主题结果页仪式元素（plan4 方向五）
+   每套主题在玩法结果首卡呈现一个专属「仪式元素」：
+     star 星轨进度环 / zen 朱砂印记 / cyb 全息网格亮线 / chun 花瓣随结果浮现
+   仅展示层装饰（不承载信息、不拦截点击），靠 html[data-theme]
+   精准命中，切换主题自动跟随对应仪式。
+   装饰永远处于内容之下（z-index:-1，配合 .wb-card isolation），
+   只走 transform/opacity 合成层动画；prefers-reduced-motion 由下方
+   全局 0.01ms 规则覆盖。
+   ============================================================ */
+
+/* 占位装饰节点：各玩法页结果首卡内一个空 div（aria-hidden）
+   默认隐藏，由各主题按需点亮 */
+.wb-ritual {
+  display: none;
+}
+
+/* ---- a. 月明青山 star · 星轨进度环 ----
+   落点：结果首卡上方。结果浮现时弧线绕一圈点亮（一次性，不循环）。 */
+html[data-theme="star"] .wb-ritual {
+  display: block;
+  position: absolute;
+  top: -20px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  opacity: 0;
+  animation: wb-ritual-star 0.9s ease both 0.1s;
+}
+html[data-theme="star"] .wb-ritual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  border-right-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  opacity: 0;
+  animation: wb-ritual-star-arc 0.9s ease 0.1s;
+}
+html[data-theme="star"] .wb-ritual::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  animation: wb-ritual-star-spark 0.9s ease 0.1s;
+}
+@keyframes wb-ritual-star {
+  0% { opacity: 0; transform: scale(0.6); }
+  70% { opacity: 1; }
+  100% { opacity: 0.85; transform: scale(1); }
+}
+@keyframes wb-ritual-star-arc {
+  0% { transform: rotate(0deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: rotate(360deg); opacity: 0.8; }
+}
+@keyframes wb-ritual-star-spark {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0.85; }
+}
+
+/* ---- b. 红豆生思 zen · 朱砂印记 ----
+   落点：结果首卡标题行右侧空白处。印章「啪」地盖下，红底白字，水墨点题。
+   走 absolute 定位（脱离文档流、不影响布局），靠卡片 isolation 定层。 */
+html[data-theme="zen"] .wb-ritual {
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  transform-origin: top center;
+  opacity: 0;
+  animation: wb-ritual-seal 0.3s ease both;
+}
+/* 印章字：纯装饰「卜」，不承载信息（已被 aria-hidden 包裹） */
+html[data-theme="zen"] .wb-ritual::after {
+  content: "卜";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+}
+@keyframes wb-ritual-seal {
+  0% { opacity: 0; transform: scale(1.4); }
+  60% { opacity: 1; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ---- c. 似天在水 cyb · 全息网格底纹 + 扫描亮线 ----
+   落点：结果首卡内。卡片浮现时一道全息亮线扫过，赛博纵深；
+   网格为静态底纹（不动画），亮线用 transform 一次性扫完。 */
+html[data-theme="cyb"] .wb-ritual {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+  background:
+    linear-gradient(60deg, transparent 0 48%, color-mix(in srgb, var(--accent) 7%, transparent) 49% 51%, transparent 52% 100%),
+    linear-gradient(transparent 0, transparent calc(100% - 1px), color-mix(in srgb, var(--accent) 9%, transparent) 100%),
+    linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), color-mix(in srgb, var(--accent) 9%, transparent) 100%);
+  background-size: 120px 120px, 100% 40px, 40px 100%;
+}
+html[data-theme="cyb"] .wb-ritual::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
+  animation: wb-ritual-holo 0.6s ease both 0.1s;
+}
+@keyframes wb-ritual-holo {
+  0% { transform: translateX(-120%); opacity: 0; }
+  40% { opacity: 0.85; }
+  100% { transform: translateX(240%); opacity: 0; }
+}
+
+/* ---- d. 昔我往矣 chun · 花瓣随结果浮现 ----
+   落点：结果首卡四周。结果出现时几片花瓣错峰缓缓飘落，春意盎然。 */
+html[data-theme="chun"] .wb-ritual {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+html[data-theme="chun"] .wb-ritual::before,
+html[data-theme="chun"] .wb-ritual::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50% 0 50% 50%;
+  background: radial-gradient(circle at 30% 30%, #ffc0cb, #ff9fb2);
+  opacity: 0;
+}
+html[data-theme="chun"] .wb-ritual::before {
+  left: 20%;
+  animation: wb-ritual-petal 0.7s ease both 0.1s;
+}
+html[data-theme="chun"] .wb-ritual::after {
+  right: 22%;
+  animation: wb-ritual-petal 0.7s ease both 0.24s;
+}
+@keyframes wb-ritual-petal {
+  0% { transform: translateY(-12px) rotate(0deg); opacity: 0; }
+  55% { opacity: 0.85; }
+  100% { transform: translateY(70px) rotate(32deg); opacity: 0; }
+}
+
+/* 仪式元素响应式：移动端弱化（跟 body 装饰一致的 0.4 淡出），
+   且停掉位移动画、让构图归位，避免小屏下卡通 / 环溢出卡片 */
+@media (max-width: 640px) {
+  html[data-theme="star"] .wb-ritual,
+  html[data-theme="cyb"] .wb-ritual,
+  html[data-theme="chun"] .wb-ritual {
+    opacity: 0.4;
+  }
+  html[data-theme="star"] .wb-ritual,
+  html[data-theme="cyb"] .wb-ritual::after,
+  html[data-theme="chun"] .wb-ritual::before,
+  html[data-theme="chun"] .wb-ritual::after {
+    animation: none;
+    transform: none;
+  }
+  html[data-theme="cyb"] .wb-ritual::after {
+    opacity: 0;
+  }
+  html[data-theme="chun"] .wb-ritual::before,
+  html[data-theme="chun"] .wb-ritual::after {
+    opacity: 0.4;
+    transform: translateY(30px) rotate(16deg);
+  }
 }
 
 /* 响应式：移动端弱化背景装饰，避免干扰内容阅读与点击 */

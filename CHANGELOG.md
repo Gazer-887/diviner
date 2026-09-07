@@ -7,7 +7,7 @@
 
 ### 新增
 
-- 项目初始化：Git 仓库（master 分支）、工程骨架、工作区记忆结构（2026-08-31）
+- 阶段 12 主题结果页仪式元素（2026-09-07）：按 `PLAN/plan4_主题彩蛋结果页仪式元素方案.md`（方向五）实现——给每套主题在玩法结果首卡加一个**专属仪式元素**，让"占卜出结果那一刻"有独特仪式感：**月明青山**（star）= 星轨进度环（结果浮现时弧线绕一圈点亮、金色宇宙收束）、**红豆生思**（zen）= 朱砂印记（红底白字"卜"印章啪地盖下、水墨点题）、**似天在水**（cyb）= 全息网格底纹 + 扫描亮线（卡片浮现时一道青色亮线扫过、赛博纵深）、**昔我往矣**（chun）= 花瓣随结果浮现（结果出现时两片花瓣错峰缓缓飘落、春意盎然）。先 2 页试点（liuyao 卦象首卡 + bazi 四柱排盘首卡）。实现为**零业务侵入**：仅加一个 `aria-hidden` 空装饰节点 + 纯 CSS `html[data-theme]` 主题化（`src/app/globals.css` 新增 `.wb-ritual` 四套 keyframes），不动引擎/类型/状态/校验逻辑。装饰 `position:absolute + z-index:-1`（配合 `.wb-card` 新增 `isolation:isolate` + `position:relative`）永远沉在内容之下，`pointer-events:none` 不拦截点击；动效只走 `transform/opacity` 合成层，一次性入场不循环；`≤640px` 弱化为 opacity 0.4 + 构图归位；`prefers-reduced-motion` 由全局 0.01ms 规则覆盖；换肤靠 `html[data-theme]` 精准命中（不靠 JS 状态），切主题即自动切换对应仪式；liuyao 卦象卡加 `key={result.castAt}` 让重摇时整卡重挂载以重播仪式动画。门禁四连 `tsc/eslint/vitest(95)/build:local` 全绿 + 浏览器实测截图 `resources/shots/s12-*.png`（本 commit，2026-09-07）
 - Next.js 16 脚手架（TypeScript / Tailwind 4 / App Router / ESLint），静态导出配置（2026-08-31）
 - GitHub 私有仓库 diviner 创建并推送（commit 4a089ca，2026-08-31）
 - 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器（桌面完整标签 / 移动端 2 字短标签）+ 浏览器截图验证（commit b8a594d，2026-08-31）
