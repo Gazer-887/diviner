@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner.example.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner-zdrpazbh.edgeone.cool";
 
 // output: export 模式下 metadata routes 必须显式声明为静态
 export const dynamic = "force-static";

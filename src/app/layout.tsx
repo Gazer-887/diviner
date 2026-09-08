@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 const SITE_NAME = "卜兮";
 const SITE_DESCRIPTION =
   "卜兮——多主题占卜算卦网站，生辰八字、姓名测试、每日运势、塔罗、抽签解签、六爻八卦。传统文化娱乐参考，不构成任何决策依据。";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner.example.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://diviner-zdrpazbh.edgeone.cool";
 
 export const viewport: Viewport = {
   width: "device-width",
