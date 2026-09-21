@@ -7,9 +7,10 @@
 
 ### 新增
 
+- 开源元信息补齐（2026-09-22）：新增 `LICENSE`（MIT，Copyright (c) 2026 Gazer-887）+ `package.json` 补 `"license": "MIT"`；GitHub 仓库简介/主页/Topics（10 个）补齐；README 许可证章节由「待定」改为 MIT 声明 + 娱乐与文化参考免责；README 阶段 0 行与 CHANGELOG 中「GitHub 私有仓库」表述修正为公开仓库，与仓库实际可见性对齐（本 commit，2026-09-22）
 - 阶段 12 主题结果页仪式元素（2026-09-07）：按 `PLAN/plan4_主题彩蛋结果页仪式元素方案.md`（方向五）实现——给每套主题在玩法结果首卡加一个**专属仪式元素**，让"占卜出结果那一刻"有独特仪式感：**月明青山**（star）= 星轨进度环（结果浮现时弧线绕一圈点亮、金色宇宙收束）、**红豆生思**（zen）= 朱砂印记（红底白字"卜"印章啪地盖下、水墨点题）、**似天在水**（cyb）= 全息网格底纹 + 扫描亮线（卡片浮现时一道青色亮线扫过、赛博纵深）、**昔我往矣**（chun）= 花瓣随结果浮现（结果出现时两片花瓣错峰缓缓飘落、春意盎然）。已铺满**全部 6 个玩法页**（liuyao 卦象/六爻、bazi 四柱排盘、name 总评、daily 今日总览、lottery 签文、tarot 翻牌仪式首卡）。实现为**零业务侵入**：仅加一个 `aria-hidden` 空装饰节点 + 纯 CSS `html[data-theme]` 主题化（`src/app/globals.css` 新增 `.wb-ritual` 四套 keyframes），不动引擎/类型/状态/校验逻辑。装饰 `position:absolute + z-index:-1`（配合 `.wb-card` 新增 `isolation:isolate` + `position:relative`）永远沉在内容之下，`pointer-events:none` 不拦截点击；动效只走 `transform/opacity` 合成层，一次性入场不循环；`≤640px` 弱化为 opacity 0.4 + 构图归位；`prefers-reduced-motion` 由全局 0.01ms 规则覆盖；换肤靠 `html[data-theme]` 精准命中（不靠 JS 状态），切主题即自动切换对应仪式；liuyao 卦象卡加 `key={result.castAt}` 让重摇时整卡重挂载以重播仪式动画。门禁四连 `tsc/eslint/vitest(95)/build:local` 全绿 + 浏览器实测截图 `resources/shots/s12-*.png`（本 commit，2026-09-07）
 - Next.js 16 脚手架（TypeScript / Tailwind 4 / App Router / ESLint），静态导出配置（2026-08-31）
-- GitHub 私有仓库 diviner 创建并推送（commit 4a089ca，2026-08-31）
+- GitHub 仓库 diviner 创建并推送（commit 4a089ca，2026-08-31；后转为公开仓库）
 - 阶段 1 设计系统：4 套主题（暗夜星辰/禅意水墨/国潮红金/赛博玄学）+ 首页 + 主题切换器（桌面完整标签 / 移动端 2 字短标签）+ 浏览器截图验证（commit b8a594d，2026-08-31）
 - 阶段 2 占卜引擎：八字/姓名/每日运势/塔罗/抽签五引擎 + 内容库（752 字笔画、78 张塔罗、40 支签、12 生肖）+ 48 个 Vitest 单元测试 + 子代理交叉验收（commit 78f6901，2026-08-31）
 - 阶段 3 五玩法页面：5 个 `src/app/{bazi,name,daily,tarot,lottery}/page.tsx` + 4 个公共组件（PageShell/Field/Button/ResultCard） + globals.css 动画体系（wb-fade-up / wb-pop / wb-flip / wb-shake）+ 浏览器真实交互逐页验证截图（commit 9e724a1，2026-08-31）
